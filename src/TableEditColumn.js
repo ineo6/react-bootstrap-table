@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import editor from './Editor';
-import Notifier from './Notification.js';
+// import Notifier from './Notification.js';
 import classSet from 'classnames';
 
 class TableEditColumn extends Component {
@@ -57,7 +57,7 @@ class TableEditColumn extends Component {
     if (ts.props.editable.validator) {
       const valid = ts.props.editable.validator(value);
       if (valid !== true) {
-        ts.refs.notifier.notice('error', valid, 'Pressed ESC can cancel');
+        // ts.refs.notifier.notice('error', valid, 'Pressed ESC can cancel');
         const input = ts.refs.inputRef;
         // animate input
         ts.clearTimeout();
@@ -115,7 +115,7 @@ class TableEditColumn extends Component {
     return (
       <td ref='td' style={ { position: 'relative' } }>
         { cellEditor }
-        <Notifier ref='notifier'/>
+        {/*<Notifier ref='notifier'/>*/}
       </td>
     );
   }

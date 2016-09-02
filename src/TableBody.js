@@ -24,7 +24,8 @@ class TableBody extends Component {
       'table-striped': this.props.striped,
       'table-bordered': this.props.bordered,
       'table-hover': this.props.hover,
-      'table-condensed': this.props.condensed
+      'table-condensed': this.props.condensed,
+      'table-wrap': this.props.wrap
     }, this.props.tableBodyClass);
 
     const unselectable = this.props.selectRow.unselectable || [];

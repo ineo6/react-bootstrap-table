@@ -7,14 +7,14 @@ const editor = function(editable, attr, format, editorClass, defaultValue, ignor
     const type = editable ? 'text' : editable;
     return (
       <input { ...attr } type={ type } defaultValue={ defaultValue }
-          className={ ( editorClass || '') + ' form-control editor edit-text' } />
+          className={ ( editorClass || '') + '  editor edit-text' } />
     );
   } else if (!editable) {
     const type = editable ? 'text' : editable;
     return (
         <input { ...attr } type={ type } defaultValue={ defaultValue }
           disabled='disabled'
-          className={ ( editorClass || '') + ' form-control editor edit-text' } />
+          className={ ( editorClass || '') + '  editor edit-text' } />
     );
   } else if (editable && (editable.type === undefined ||
              editable.type === null ||
@@ -22,14 +22,14 @@ const editor = function(editable, attr, format, editorClass, defaultValue, ignor
     const type = editable ? 'text' : editable;
     return (
       <input { ...attr } type={ type } defaultValue={ defaultValue }
-        className={ ( editorClass || '') + ' form-control editor edit-text' } />
+        className={ ( editorClass || '') + '  editor edit-text' } />
     );
   } else if (editable.type) {// standard declare
     // put style if exist
     editable.style && (attr.style = editable.style);
     // put class if exist
     attr.className = (editorClass || '') +
-                     ' form-control editor edit-' +
+                     '  editor edit-' +
                      editable.type +
                      (editable.className ? (' ' + editable.className) : '');
 
@@ -82,7 +82,7 @@ const editor = function(editable, attr, format, editorClass, defaultValue, ignor
         // values = editable.options.values.split(':');
         values = editable.options.values;
       }
-      attr.className = attr.className.replace('form-control', '');
+      // attr.className = attr.className.replace('form-control', '');
       attr.className += ' checkbox pull-right';
 
       const checked = defaultValue &&
@@ -105,7 +105,7 @@ const editor = function(editable, attr, format, editorClass, defaultValue, ignor
   // default return for other case of editable
   return (
     <input {...attr} type='text'
-      className={ (editorClass || '') + ' form-control editor edit-text' }/>
+      className={ (editorClass || '') + '  editor edit-text' }/>
   );
 };
 

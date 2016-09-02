@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classSet from 'classnames';
 import Const from '../Const';
 import editor from '../Editor';
-import Notifier from '../Notification.js';
+// import Notifier from '../Notification.js';
 
 class ToolBar extends Component {
 
@@ -84,10 +84,10 @@ class ToolBar extends Component {
       // show error in form and shake it
       this.setState({ validateState, shakeEditor: true });
       // notifier error
-      this.refs.notifier.notice(
-        'error',
-        'Form validate errors, please checking!',
-        'Pressed ESC can cancel');
+      // this.refs.notifier.notice(
+      //   'error',
+      //   'Form validate errors, please checking!',
+      //   'Pressed ESC can cancel');
       // clear animate class
       this.timeouteClear = setTimeout(() => {
         this.setState({ shakeEditor: false });
@@ -103,7 +103,7 @@ class ToolBar extends Component {
     }
     const msg = this.props.onAddRow(newObj);
     if (msg) {
-      this.refs.notifier.notice('error', msg, 'Pressed ESC can cancel');
+      // this.refs.notifier.notice('error', msg, 'Pressed ESC can cancel');
       this.clearTimeout();
       // shake form and hack prevent modal hide
       this.setState({
@@ -250,7 +250,6 @@ class ToolBar extends Component {
         <div className='col-xs-12 col-sm-6 col-md-6 col-lg-4'>
           { searchTextInput }
         </div>
-        <Notifier ref='notifier' />
         { modal }
       </div>
     );

@@ -21,6 +21,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.react-bs-table table.table-wrap td{
+    word-break:break-all;
+    word-wrap:break-word;
+    white-space: pre-wrap;
+    text-overflow: clip;
+}
 .react-bs-table {
   margin: 5px 10px 5px 10px;
 }

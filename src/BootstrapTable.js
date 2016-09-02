@@ -13,6 +13,11 @@ import Util from './util';
 import exportCSV from './csv_export_util';
 import { Filter } from './Filter';
 
+import './css/react-bootstrap-table-all.css';
+import './css/react-bootstrap-table.css';
+import './css/table.css';
+import './css/style.css';
+
 class BootstrapTable extends Component {
 
   constructor(props) {
@@ -258,13 +263,19 @@ class BootstrapTable extends Component {
     const isSelectAll = this.isSelectAll();
     let sortIndicator = this.props.options.sortIndicator;
     if (typeof this.props.options.sortIndicator === 'undefined') sortIndicator = true;
+
+      const containerClassName = classSet({
+          "react-bs-table-container": true,
+          [`react-bs-table-container-sm`]: this.props.size === 'small'
+      });
+
     return (
-      <div className={ classSet('react-bs-table-container', this.props.containerClass) }
-        style={ this.props.containerStyle }>
+      <div className={containerClassName} style={ this.props.containerStyle }>
         { toolBar }
-        <div ref='table'
-            className={ classSet('react-bs-table', this.props.tableContainerClass) }
-            style={ { ...style, ...this.props.tableStyle } }
+        <div id = { this.props.id }
+             ref='table'
+             className={ classSet('react-bs-table', this.props.tableContainerClass) }
+             style={ { ...style, ...this.props.tableStyle } }
             onMouseEnter={ this.handleMouseEnter }
             onMouseLeave={ this.handleMouseLeave }>
           <TableHeader
@@ -296,6 +307,7 @@ class BootstrapTable extends Component {
             striped={ this.props.striped }
             bordered={ this.props.bordered }
             hover={ this.props.hover }
+            wrap={ this.props.wrap }
             keyField={ this.store.getKeyField() }
             condensed={ this.props.condensed }
             selectRow={ this.props.selectRow }
@@ -589,7 +601,7 @@ class BootstrapTable extends Component {
         this.props.options.handleConfirmDeleteRow(() => {
           this.deleteRow(dropRowKeys);
         }, dropRowKeys);
-      } else if (confirm('Are you sure you want to delete?')) {
+      } else if (confirm('Are you sure want delete?')) {
         this.deleteRow(dropRowKeys);
       }
     }
@@ -955,6 +967,7 @@ BootstrapTable.propTypes = {
   hover: PropTypes.bool,
   condensed: PropTypes.bool,
   pagination: PropTypes.bool,
+  wrap: PropTypes.bool,
   searchPlaceholder: PropTypes.string,
   selectRow: PropTypes.shape({
     mode: PropTypes.oneOf([
@@ -1052,6 +1065,8 @@ BootstrapTable.defaultProps = {
   hover: false,
   condensed: false,
   pagination: false,
+  wrap:false,
+  size: React.PropTypes.oneOf(['small', 'default']),
   searchPlaceholder: undefined,
   selectRow: {
     mode: Const.ROW_SELECT_NONE,

@@ -224,7 +224,7 @@ TableHeaderColumn.propTypes = {
 TableHeaderColumn.defaultProps = {
   dataAlign: 'left',
   headerAlign: undefined,
-  dataSort: false,
+  dataSort: true,
   dataFormat: undefined,
   csvFormat: undefined,
   csvHeader: undefined,
