@@ -13,11 +13,6 @@ import Util from './util';
 import exportCSV from './csv_export_util';
 import { Filter } from './Filter';
 
-import './css/react-bootstrap-table-all.css';
-import './css/react-bootstrap-table.css';
-import './css/table.css';
-import './css/style.css';
-
 class BootstrapTable extends Component {
 
   constructor(props) {
@@ -317,7 +312,8 @@ class BootstrapTable extends Component {
             onRowMouseOver={ this.handleRowMouseOver }
             onRowMouseOut={ this.handleRowMouseOut }
             onSelectRow={ this.handleSelectRow }
-            noDataText={ this.props.options.noDataText } />
+            noDataText={ this.props.options.noDataText }
+            groupbyColumn={this.props.groupbyColumn}/>
         </div>
         { tableFilter }
         { pagination }

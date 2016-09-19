@@ -66,7 +66,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BootstrapTable2 = _interopRequireDefault(_BootstrapTable);
 
-	var _TableHeaderColumn = __webpack_require__(41);
+	var _TableHeaderColumn = __webpack_require__(25);
 
 	var _TableHeaderColumn2 = _interopRequireDefault(_TableHeaderColumn);
 
@@ -97,6 +97,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -121,29 +123,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _TableBody2 = _interopRequireDefault(_TableBody);
 
-	var _paginationPaginationList = __webpack_require__(29);
+	var _paginationPaginationList = __webpack_require__(13);
 
 	var _paginationPaginationList2 = _interopRequireDefault(_paginationPaginationList);
 
-	var _toolbarToolBar = __webpack_require__(31);
+	var _toolbarToolBar = __webpack_require__(15);
 
 	var _toolbarToolBar2 = _interopRequireDefault(_toolbarToolBar);
 
-	var _TableFilter = __webpack_require__(32);
+	var _TableFilter = __webpack_require__(16);
 
 	var _TableFilter2 = _interopRequireDefault(_TableFilter);
 
-	var _storeTableDataStore = __webpack_require__(33);
+	var _storeTableDataStore = __webpack_require__(17);
 
-	var _util = __webpack_require__(34);
+	var _util = __webpack_require__(18);
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _csv_export_util = __webpack_require__(35);
+	var _csv_export_util = __webpack_require__(19);
 
 	var _csv_export_util2 = _interopRequireDefault(_csv_export_util);
 
-	var _Filter = __webpack_require__(39);
+	var _Filter = __webpack_require__(23);
 
 	var BootstrapTable = (function (_Component) {
 	  _inherits(BootstrapTable, _Component);
@@ -357,7 +359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          _this.props.options.handleConfirmDeleteRow(function () {
 	            _this.deleteRow(dropRowKeys);
 	          }, dropRowKeys);
-	        } else if (confirm('Are you sure you want to delete?')) {
+	        } else if (confirm('Are you sure want delete?')) {
 	          _this.deleteRow(dropRowKeys);
 	        }
 	      }
@@ -794,14 +796,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var isSelectAll = this.isSelectAll();
 	      var sortIndicator = this.props.options.sortIndicator;
 	      if (typeof this.props.options.sortIndicator === 'undefined') sortIndicator = true;
+
+	      var containerClassName = (0, _classnames2['default'])(_defineProperty({
+	        "react-bs-table-container": true
+	      }, 'react-bs-table-container-sm', this.props.size === 'small'));
+
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: (0, _classnames2['default'])('react-bs-table-container', this.props.containerClass),
-	          style: this.props.containerStyle },
+	        { className: containerClassName, style: this.props.containerStyle },
 	        toolBar,
 	        _react2['default'].createElement(
 	          'div',
-	          { ref: 'table',
+	          { id: this.props.id,
+	            ref: 'table',
 	            className: (0, _classnames2['default'])('react-bs-table', this.props.tableContainerClass),
 	            style: _extends({}, style, this.props.tableStyle),
 	            onMouseEnter: this.handleMouseEnter,
@@ -837,6 +844,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            striped: this.props.striped,
 	            bordered: this.props.bordered,
 	            hover: this.props.hover,
+	            wrap: this.props.wrap,
 	            keyField: this.store.getKeyField(),
 	            condensed: this.props.condensed,
 	            selectRow: this.props.selectRow,
@@ -846,7 +854,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onRowMouseOver: this.handleRowMouseOver,
 	            onRowMouseOut: this.handleRowMouseOut,
 	            onSelectRow: this.handleSelectRow,
-	            noDataText: this.props.options.noDataText })
+	            noDataText: this.props.options.noDataText,
+	            groupbyColumn: this.props.groupbyColumn })
 	        ),
 	        tableFilter,
 	        pagination
@@ -1150,6 +1159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  hover: _react.PropTypes.bool,
 	  condensed: _react.PropTypes.bool,
 	  pagination: _react.PropTypes.bool,
+	  wrap: _react.PropTypes.bool,
 	  searchPlaceholder: _react.PropTypes.string,
 	  selectRow: _react.PropTypes.shape({
 	    mode: _react.PropTypes.oneOf([_Const2['default'].ROW_SELECT_NONE, _Const2['default'].ROW_SELECT_SINGLE, _Const2['default'].ROW_SELECT_MULTI]),
@@ -1243,6 +1253,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  hover: false,
 	  condensed: false,
 	  pagination: false,
+	  wrap: false,
+	  size: _react2['default'].PropTypes.oneOf(['small', 'default']),
 	  searchPlaceholder: undefined,
 	  selectRow: {
 	    mode: _Const2['default'].ROW_SELECT_NONE,
@@ -1415,9 +1427,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  CELL_EDIT_NONE: 'none',
 	  CELL_EDIT_CLICK: 'click',
 	  CELL_EDIT_DBCLICK: 'dbclick',
-	  SIZE_PER_PAGE_LIST: [10, 25, 30, 50],
+	  SIZE_PER_PAGE_LIST: [10, 25, 50, 100],
 	  PAGINATION_SIZE: 5,
-	  NO_DATA_TEXT: 'There is no data to display',
+	  NO_DATA_TEXT: '暂无数据',
 	  SHOW_ONLY_SELECT: 'Show Selected Only',
 	  SHOW_ALL: 'Show All',
 	  EXPORT_CSV_TEXT: 'Export to CSV',
@@ -1813,17 +1825,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	      currEditCell: null
 	    };
 	    this.editing = false;
+	    //rowSpan 功能
+	    this.rowSpanArray = {};
 	  }
 
+	  // rowSpan 功能
+
 	  _createClass(TableBody, [{
+	    key: 'handleRowSpan',
+	    value: function handleRowSpan(index) {
+
+	      return this.rowSpanArray[index];
+	    }
+	  }, {
+	    key: 'setRowSpan',
+	    value: function setRowSpan(index, value) {
+
+	      if (this.rowSpanArray[index]) {
+
+	        value += this.rowSpanArray[index];
+	      }
+
+	      this.rowSpanArray[index] = value;
+	    }
+	  }, {
+	    key: 'resetRowSpan',
+	    value: function resetRowSpan() {
+
+	      this.rowSpanArray = {};
+	    }
+
+	    // --
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var tableClasses = (0, _classnames2['default'])('table', {
 	        'table-striped': this.props.striped,
 	        'table-bordered': this.props.bordered,
 	        'table-hover': this.props.hover,
-	        'table-condensed': this.props.condensed
+	        'table-condensed': this.props.condensed,
+	        'table-wrap': this.props.wrap
 	      }, this.props.tableBodyClass);
+
+	      // rowSpan 功能
+
+	      var current_groupby_field_value = undefined;
+	      var current_groupby_field_index = undefined;
+	      var groupbyColumn = this.props.groupbyColumn || '';
+	      this.resetRowSpan();
+
+	      // --
 
 	      var unselectable = this.props.selectRow.unselectable || [];
 	      var isSelectRowDefined = this._isSelectRowDefined();
@@ -1832,8 +1884,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var CustomComponent = this.props.selectRow.customComponent;
 
 	      var tableRows = this.props.data.map(function (data, r) {
-	        var tableColumns = this.props.columns.map(function (column, i) {
+	        var tableColumns = [];
+	        this.props.columns.forEach(function (column, i) {
 	          var fieldValue = data[column.name];
+
+	          //rowSpan 功能
+	          if (groupbyColumn == column.name && (!current_groupby_field_value || current_groupby_field_value != fieldValue)) {
+	            current_groupby_field_value = fieldValue;
+	            current_groupby_field_index = r;
+	          }
+
+	          if (groupbyColumn == column.name) {
+	            this.setRowSpan(current_groupby_field_index, 1);
+	          }
+	          // --
+
 	          if (this.editing && column.name !== this.props.keyField && // Key field can't be edit
 	          column.editable && // column is editable? default is true, user can set it false
 	          this.state.currEditCell !== null && this.state.currEditCell.rid === r && this.state.currEditCell.cid === i) {
@@ -1845,51 +1910,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	              editable = column.editable(fieldValue, data, r, i);
 	            }
 
-	            return _react2['default'].createElement(_TableEditColumn2['default'], {
-	              completeEdit: this.handleCompleteEditCell,
-	              // add by bluespring for column editor customize
-	              editable: editable,
-	              customEditor: column.customEditor,
-	              format: column.format ? format : false,
-	              key: i,
-	              blurToSave: this.props.cellEdit.blurToSave,
-	              rowIndex: r,
-	              colIndex: i,
-	              row: data,
-	              fieldValue: fieldValue });
-	          } else {
-	            // add by bluespring for className customize
-	            var columnChild = fieldValue && fieldValue.toString();
-	            var columnTitle = null;
-	            var tdClassName = column.className;
-	            if (isFun(column.className)) {
-	              tdClassName = column.className(fieldValue, data, r, i);
+	            // rowSpan 功能 修改原来列加载方式
+	            if (groupbyColumn != column.name || groupbyColumn == column.name && current_groupby_field_index == r) {
+
+	              var rowSpanFn = this.handleRowSpan.bind(this, r);
+
+	              if (groupbyColumn != column.name) {
+
+	                rowSpanFn = null;
+	              }
+
+	              tableColumns.push(_react2['default'].createElement(_TableEditColumn2['default'], {
+	                completeEdit: this.handleCompleteEditCell,
+	                // add by bluespring for column editor customize
+	                editable: editable,
+	                customEditor: column.customEditor,
+	                format: column.format ? format : false,
+	                key: i,
+	                blurToSave: this.props.cellEdit.blurToSave,
+	                rowSpan: rowSpanFn,
+	                rowIndex: r,
+	                colIndex: i,
+	                row: data,
+	                fieldValue: fieldValue }));
 	            }
 
-	            if (typeof column.format !== 'undefined') {
-	              var formattedValue = column.format(fieldValue, data, column.formatExtraData, r);
-	              if (!_react2['default'].isValidElement(formattedValue)) {
-	                columnChild = _react2['default'].createElement('div', { dangerouslySetInnerHTML: { __html: formattedValue } });
-	              } else {
-	                columnChild = formattedValue;
-	                columnTitle = column.columnTitle && formattedValue ? formattedValue.toString() : null;
+	            //--
+	          } else {
+	              // add by bluespring for className customize
+	              var columnChild = fieldValue && fieldValue.toString();
+	              var columnTitle = null;
+	              var tdClassName = column.className;
+	              if (isFun(column.className)) {
+	                tdClassName = column.className(fieldValue, data, r, i);
 	              }
-	            } else {
-	              columnTitle = column.columnTitle && fieldValue ? fieldValue.toString() : null;
+
+	              if (typeof column.format !== 'undefined') {
+	                var formattedValue = column.format(fieldValue, data, column.formatExtraData, r);
+	                if (!_react2['default'].isValidElement(formattedValue)) {
+	                  columnChild = _react2['default'].createElement('div', { dangerouslySetInnerHTML: { __html: formattedValue } });
+	                } else {
+	                  columnChild = formattedValue;
+	                  columnTitle = column.columnTitle && formattedValue ? formattedValue.toString() : null;
+	                }
+	              } else {
+	                columnTitle = column.columnTitle && fieldValue ? fieldValue.toString() : null;
+	              }
+
+	              // rowSpan 功能 修改原来列加载方式
+	              if (groupbyColumn != column.name || groupbyColumn == column.name && current_groupby_field_index == r) {
+
+	                //
+	                var rowSpanFn = this.handleRowSpan.bind(this, r);
+
+	                if (groupbyColumn != column.name) {
+
+	                  rowSpanFn = null;
+	                }
+
+	                tableColumns.push(_react2['default'].createElement(
+	                  _TableColumn2['default'],
+	                  { key: i,
+	                    dataAlign: column.align,
+	                    className: tdClassName,
+	                    columnTitle: columnTitle,
+	                    cellEdit: this.props.cellEdit,
+	                    hidden: column.hidden,
+	                    onEdit: this.handleEditCell,
+	                    rowSpan: rowSpanFn,
+	                    width: column.width },
+	                  columnChild
+	                ));
+	              }
+	              //--
 	            }
-	            return _react2['default'].createElement(
-	              _TableColumn2['default'],
-	              { key: i,
-	                dataAlign: column.align,
-	                className: tdClassName,
-	                columnTitle: columnTitle,
-	                cellEdit: this.props.cellEdit,
-	                hidden: column.hidden,
-	                onEdit: this.handleEditCell,
-	                width: column.width },
-	              columnChild
-	            );
-	          }
 	        }, this);
 	        var key = data[this.props.keyField];
 	        var disable = unselectable.indexOf(key) !== -1;
@@ -1900,9 +1994,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (isFun(this.props.trClassName)) {
 	          trClassName = this.props.trClassName(data, r);
 	        }
+	        //todo force render key to index 恢复使用索引做key
 	        return _react2['default'].createElement(
 	          _TableRow2['default'],
-	          { isSelected: selected, key: key, className: trClassName,
+	          { isSelected: selected, key: r, className: trClassName,
 	            selectRow: isSelectRowDefined ? this.props.selectRow : undefined,
 	            enableCellEdit: this.props.cellEdit.mode !== _Const2['default'].CELL_EDIT_NONE,
 	            onRowClick: this.handleRowClick,
@@ -2269,9 +2364,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          opts.onDoubleClick = this.handleCellEdit;
 	        }
 	      }
+	      // rowSpan 功能
+	      var rowSpanValue = 1;
+	      if (this.props.rowSpan) {
+	        rowSpanValue = this.props.rowSpan();
+	      }
+	      // --
 	      return _react2['default'].createElement(
 	        'td',
 	        _extends({ style: tdStyle,
+	          rowSpan: rowSpanValue,
 	          title: this.props.columnTitle,
 	          className: this.props.className
 	        }, opts),
@@ -2329,9 +2431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _NotificationJs = __webpack_require__(13);
-
-	var _NotificationJs2 = _interopRequireDefault(_NotificationJs);
+	// import Notifier from './Notification.js';
 
 	var _classnames = __webpack_require__(3);
 
@@ -2396,7 +2496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (ts.props.editable.validator) {
 	        var valid = ts.props.editable.validator(value);
 	        if (valid !== true) {
-	          ts.refs.notifier.notice('error', valid, 'Pressed ESC can cancel');
+	          // ts.refs.notifier.notice('error', valid, 'Pressed ESC can cancel');
 	          var input = ts.refs.inputRef;
 	          // animate input
 	          ts.clearTimeout();
@@ -2474,8 +2574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _react2['default'].createElement(
 	        'td',
 	        { ref: 'td', style: { position: 'relative' } },
-	        cellEditor,
-	        _react2['default'].createElement(_NotificationJs2['default'], { ref: 'notifier' })
+	        cellEditor
 	      );
 	    }
 	  }, {
@@ -2504,6 +2603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports['default'] = TableEditColumn;
 	module.exports = exports['default'];
+	/*<Notifier ref='notifier'/>*/
 
 /***/ },
 /* 12 */
@@ -2528,22 +2628,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // simple declare
 	    var type = editable ? 'text' : editable;
 	    return _react2['default'].createElement('input', _extends({}, attr, { type: type, defaultValue: defaultValue,
-	      className: (editorClass || '') + ' form-control editor edit-text' }));
+	      className: (editorClass || '') + '  editor edit-text' }));
 	  } else if (!editable) {
 	    var type = editable ? 'text' : editable;
 	    return _react2['default'].createElement('input', _extends({}, attr, { type: type, defaultValue: defaultValue,
 	      disabled: 'disabled',
-	      className: (editorClass || '') + ' form-control editor edit-text' }));
+	      className: (editorClass || '') + '  editor edit-text' }));
 	  } else if (editable && (editable.type === undefined || editable.type === null || editable.type.trim() === '')) {
 	    var type = editable ? 'text' : editable;
 	    return _react2['default'].createElement('input', _extends({}, attr, { type: type, defaultValue: defaultValue,
-	      className: (editorClass || '') + ' form-control editor edit-text' }));
+	      className: (editorClass || '') + '  editor edit-text' }));
 	  } else if (editable.type) {
 	    // standard declare
 	    // put style if exist
 	    editable.style && (attr.style = editable.style);
 	    // put class if exist
-	    attr.className = (editorClass || '') + ' form-control editor edit-' + editable.type + (editable.className ? ' ' + editable.className : '');
+	    attr.className = (editorClass || '') + '  editor edit-' + editable.type + (editable.className ? ' ' + editable.className : '');
 
 	    if (editable.type === 'select') {
 	      // process select input
@@ -2608,7 +2708,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // values = editable.options.values.split(':');
 	        values = editable.options.values;
 	      }
-	      attr.className = attr.className.replace('form-control', '');
+	      // attr.className = attr.className.replace('form-control', '');
 	      attr.className += ' checkbox pull-right';
 
 	      var checked = defaultValue && defaultValue.toString() === values.split(':')[0] ? true : false;
@@ -2624,7 +2724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  // default return for other case of editable
 	  return _react2['default'].createElement('input', _extends({}, attr, { type: 'text',
-	    className: (editorClass || '') + ' form-control editor edit-text' }));
+	    className: (editorClass || '') + '  editor edit-text' }));
 	};
 
 	exports['default'] = editor;
@@ -2654,1382 +2754,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactToastr = __webpack_require__(14);
-
-	var ToastrMessageFactory = _react2['default'].createFactory(_reactToastr.ToastMessage.animation);
-
-	var Notification = (function (_Component) {
-	  _inherits(Notification, _Component);
-
-	  function Notification() {
-	    _classCallCheck(this, Notification);
-
-	    _get(Object.getPrototypeOf(Notification.prototype), 'constructor', this).apply(this, arguments);
-	  }
-
-	  _createClass(Notification, [{
-	    key: 'notice',
-
-	    // allow type is success,info,warning,error
-	    value: function notice(type, msg, title) {
-	      this.refs.toastr[type](msg, title, {
-	        mode: 'single',
-	        timeOut: 5000,
-	        extendedTimeOut: 1000,
-	        showAnimation: 'animated  bounceIn',
-	        hideAnimation: 'animated bounceOut'
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2['default'].createElement(_reactToastr.ToastContainer, { ref: 'toastr',
-	        toastMessageFactory: ToastrMessageFactory,
-	        id: 'toast-container',
-	        className: 'toast-top-right' });
-	    }
-	  }]);
-
-	  return Notification;
-	})(_react.Component);
-
-	exports['default'] = Notification;
-	module.exports = exports['default'];
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.ToastMessage = exports.ToastContainer = undefined;
-
-	var _ToastContainer = __webpack_require__(15);
-
-	var _ToastContainer2 = _interopRequireDefault(_ToastContainer);
-
-	var _ToastMessage = __webpack_require__(22);
-
-	var _ToastMessage2 = _interopRequireDefault(_ToastMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.ToastContainer = _ToastContainer2.default;
-	exports.ToastMessage = _ToastMessage2.default;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsUpdate = __webpack_require__(16);
-
-	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
-
-	var _ToastMessage = __webpack_require__(22);
-
-	var _ToastMessage2 = _interopRequireDefault(_ToastMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ToastContainer = function (_Component) {
-	  _inherits(ToastContainer, _Component);
-
-	  function ToastContainer() {
-	    var _Object$getPrototypeO;
-
-	    var _temp, _this, _ret;
-
-	    _classCallCheck(this, ToastContainer);
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ToastContainer)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
-	      toasts: [],
-	      toastId: 0,
-	      previousMessage: null
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
-	  }
-
-	  _createClass(ToastContainer, [{
-	    key: "error",
-	    value: function error(message, title, optionsOverride) {
-	      this._notify(this.props.toastType.error, message, title, optionsOverride);
-	    }
-	  }, {
-	    key: "info",
-	    value: function info(message, title, optionsOverride) {
-	      this._notify(this.props.toastType.info, message, title, optionsOverride);
-	    }
-	  }, {
-	    key: "success",
-	    value: function success(message, title, optionsOverride) {
-	      this._notify(this.props.toastType.success, message, title, optionsOverride);
-	    }
-	  }, {
-	    key: "warning",
-	    value: function warning(message, title, optionsOverride) {
-	      this._notify(this.props.toastType.warning, message, title, optionsOverride);
-	    }
-	  }, {
-	    key: "clear",
-	    value: function clear() {
-	      var _this2 = this;
-
-	      Object.keys(this.refs).forEach(function (key) {
-	        _this2.refs[key].hideToast(false);
-	      });
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var _this3 = this;
-
-	      return _react2.default.createElement(
-	        "div",
-	        _extends({}, this.props, { "aria-live": "polite", role: "alert" }),
-	        this.state.toasts.map(function (toast) {
-	          return _this3.props.toastMessageFactory(toast);
-	        })
-	      );
-	    }
-	  }, {
-	    key: "_notify",
-	    value: function _notify(type, message, title) {
-	      var _this4 = this;
-
-	      var optionsOverride = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
-
-	      if (this.props.preventDuplicates) {
-	        if (this.state.previousMessage === message) {
-	          return;
-	        }
-	      }
-	      var key = this.state.toastId++;
-	      var toastId = key;
-	      var newToast = (0, _reactAddonsUpdate2.default)(optionsOverride, {
-	        $merge: {
-	          type: type,
-	          title: title,
-	          message: message,
-	          toastId: toastId,
-	          key: key,
-	          ref: "toasts__" + key,
-	          handleOnClick: function handleOnClick(e) {
-	            if ("function" === typeof optionsOverride.handleOnClick) {
-	              optionsOverride.handleOnClick();
-	            }
-	            return _this4._handle_toast_on_click(e);
-	          },
-	          handleRemove: this._handle_toast_remove.bind(this)
-	        }
-	      });
-	      var toastOperation = _defineProperty({}, "" + (this.props.newestOnTop ? "$unshift" : "$push"), [newToast]);
-
-	      var nextState = (0, _reactAddonsUpdate2.default)(this.state, {
-	        toasts: toastOperation,
-	        previousMessage: { $set: message }
-	      });
-	      this.setState(nextState);
-	    }
-	  }, {
-	    key: "_handle_toast_on_click",
-	    value: function _handle_toast_on_click(event) {
-	      this.props.onClick(event);
-	      if (event.defaultPrevented) {
-	        return;
-	      }
-	      event.preventDefault();
-	      event.stopPropagation();
-	    }
-	  }, {
-	    key: "_handle_toast_remove",
-	    value: function _handle_toast_remove(toastId) {
-	      var _this5 = this;
-
-	      var operationName = "" + (this.props.newestOnTop ? "reduceRight" : "reduce");
-	      this.state.toasts[operationName](function (found, toast, index) {
-	        if (found || toast.toastId !== toastId) {
-	          return false;
-	        }
-	        _this5.setState((0, _reactAddonsUpdate2.default)(_this5.state, {
-	          toasts: { $splice: [[index, 1]] }
-	        }));
-	        return true;
-	      }, false);
-	    }
-	  }]);
-
-	  return ToastContainer;
-	}(_react.Component);
-
-	ToastContainer.defaultProps = {
-	  toastType: {
-	    error: "error",
-	    info: "info",
-	    success: "success",
-	    warning: "warning"
-	  },
-	  id: "toast-container",
-	  toastMessageFactory: _react2.default.createFactory(_ToastMessage2.default),
-	  preventDuplicates: false,
-	  newestOnTop: true,
-	  onClick: function onClick() {}
-	};
-	exports.default = ToastContainer;
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(17);
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule update
-	 */
-
-	/* global hasOwnProperty:true */
-
-	'use strict';
-
-	var assign = __webpack_require__(19);
-	var keyOf = __webpack_require__(20);
-	var invariant = __webpack_require__(21);
-	var hasOwnProperty = ({}).hasOwnProperty;
-
-	function shallowCopy(x) {
-	  if (Array.isArray(x)) {
-	    return x.concat();
-	  } else if (x && typeof x === 'object') {
-	    return assign(new x.constructor(), x);
-	  } else {
-	    return x;
-	  }
-	}
-
-	var COMMAND_PUSH = keyOf({ $push: null });
-	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
-	var COMMAND_SPLICE = keyOf({ $splice: null });
-	var COMMAND_SET = keyOf({ $set: null });
-	var COMMAND_MERGE = keyOf({ $merge: null });
-	var COMMAND_APPLY = keyOf({ $apply: null });
-
-	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
-
-	var ALL_COMMANDS_SET = {};
-
-	ALL_COMMANDS_LIST.forEach(function (command) {
-	  ALL_COMMANDS_SET[command] = true;
-	});
-
-	function invariantArrayCase(value, spec, command) {
-	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : invariant(false) : undefined;
-	  var specValue = spec[command];
-	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. ' + 'Did you forget to wrap your parameter in an array?', command, specValue) : invariant(false) : undefined;
-	}
-
-	function update(value, spec) {
-	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one ' + 'of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : invariant(false) : undefined;
-
-	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
-	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : invariant(false) : undefined;
-
-	    return spec[COMMAND_SET];
-	  }
-
-	  var nextValue = shallowCopy(value);
-
-	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
-	    var mergeObj = spec[COMMAND_MERGE];
-	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : invariant(false) : undefined;
-	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : invariant(false) : undefined;
-	    assign(nextValue, spec[COMMAND_MERGE]);
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
-	    invariantArrayCase(value, spec, COMMAND_PUSH);
-	    spec[COMMAND_PUSH].forEach(function (item) {
-	      nextValue.push(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
-	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
-	    spec[COMMAND_UNSHIFT].forEach(function (item) {
-	      nextValue.unshift(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
-	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : invariant(false) : undefined;
-	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : undefined;
-	    spec[COMMAND_SPLICE].forEach(function (args) {
-	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : undefined;
-	      nextValue.splice.apply(nextValue, args);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
-	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : invariant(false) : undefined;
-	    nextValue = spec[COMMAND_APPLY](nextValue);
-	  }
-
-	  for (var k in spec) {
-	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
-	      nextValue[k] = update(value[k], spec[k]);
-	    }
-	  }
-
-	  return nextValue;
-	}
-
-	module.exports = update;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	// shim for using process in browser
-
-	var process = module.exports = {};
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-
-	function cleanUpNextTick() {
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = setTimeout(cleanUpNextTick);
-	    draining = true;
-
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    clearTimeout(timeout);
-	}
-
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
-	    }
-	};
-
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-
-	function noop() {}
-
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Object.assign
-	 */
-
-	// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign
-
-	'use strict';
-
-	function assign(target, sources) {
-	  if (target == null) {
-	    throw new TypeError('Object.assign target cannot be null or undefined');
-	  }
-
-	  var to = Object(target);
-	  var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-	  for (var nextIndex = 1; nextIndex < arguments.length; nextIndex++) {
-	    var nextSource = arguments[nextIndex];
-	    if (nextSource == null) {
-	      continue;
-	    }
-
-	    var from = Object(nextSource);
-
-	    // We don't currently support accessors nor proxies. Therefore this
-	    // copy cannot throw. If we ever supported this then we must handle
-	    // exceptions and side-effects. We don't support symbols so they won't
-	    // be transferred.
-
-	    for (var key in from) {
-	      if (hasOwnProperty.call(from, key)) {
-	        to[key] = from[key];
-	      }
-	    }
-	  }
-
-	  return to;
-	}
-
-	module.exports = assign;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule keyOf
-	 */
-
-	/**
-	 * Allows extraction of a minified key. Let's the build system minify keys
-	 * without losing the ability to dynamically use key strings as values
-	 * themselves. Pass in an object with a single key/val pair and it will return
-	 * you the string key of that single record. Suppose you want to grab the
-	 * value for a key 'className' inside of an object. Key/val minification may
-	 * have aliased that key to be 'xa12'. keyOf({className: null}) will return
-	 * 'xa12' in that case. Resolve keys you want to use once at startup time, then
-	 * reuse those resolutions.
-	 */
-	"use strict";
-
-	var keyOf = function (oneKeyObj) {
-	  var key;
-	  for (key in oneKeyObj) {
-	    if (!oneKeyObj.hasOwnProperty(key)) {
-	      continue;
-	    }
-	    return key;
-	  }
-	  return null;
-	};
-
-	module.exports = keyOf;
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-
-	'use strict';
-
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	      error.name = 'Invariant Violation';
-	    }
-
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	}
-
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.jQuery = exports.animation = undefined;
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsUpdate = __webpack_require__(16);
-
-	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
-
-	var _classnames = __webpack_require__(3);
-
-	var _classnames2 = _interopRequireDefault(_classnames);
-
-	var _animationMixin = __webpack_require__(23);
-
-	var _animationMixin2 = _interopRequireDefault(_animationMixin);
-
-	var _jQueryMixin = __webpack_require__(28);
-
-	var _jQueryMixin2 = _interopRequireDefault(_jQueryMixin);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function noop() {}
-
-	var ToastMessageSpec = {
-	  displayName: "ToastMessage",
-
-	  getDefaultProps: function getDefaultProps() {
-	    var iconClassNames = {
-	      error: "toast-error",
-	      info: "toast-info",
-	      success: "toast-success",
-	      warning: "toast-warning"
-	    };
-
-	    return {
-	      className: "toast",
-	      iconClassNames: iconClassNames,
-	      titleClassName: "toast-title",
-	      messageClassName: "toast-message",
-	      tapToDismiss: true,
-	      closeButton: false
-	    };
-	  },
-	  handleOnClick: function handleOnClick(event) {
-	    this.props.handleOnClick(event);
-	    if (this.props.tapToDismiss) {
-	      this.hideToast(true);
-	    }
-	  },
-	  _handle_close_button_click: function _handle_close_button_click(event) {
-	    event.stopPropagation();
-	    this.hideToast(true);
-	  },
-	  _handle_remove: function _handle_remove() {
-	    this.props.handleRemove(this.props.toastId);
-	  },
-	  _render_close_button: function _render_close_button() {
-	    return this.props.closeButton ? _react2.default.createElement("button", {
-	      className: "toast-close-button", role: "button",
-	      onClick: this._handle_close_button_click,
-	      dangerouslySetInnerHTML: { __html: "&times;" }
-	    }) : false;
-	  },
-	  _render_title_element: function _render_title_element() {
-	    return this.props.title ? _react2.default.createElement(
-	      "div",
-	      { className: this.props.titleClassName },
-	      this.props.title
-	    ) : false;
-	  },
-	  _render_message_element: function _render_message_element() {
-	    return this.props.message ? _react2.default.createElement(
-	      "div",
-	      { className: this.props.messageClassName },
-	      this.props.message
-	    ) : false;
-	  },
-	  render: function render() {
-	    var iconClassName = this.props.iconClassName || this.props.iconClassNames[this.props.type];
-
-	    return _react2.default.createElement(
-	      "div",
-	      {
-	        className: (0, _classnames2.default)(this.props.className, iconClassName),
-	        style: this.props.style,
-	        onClick: this.handleOnClick,
-	        onMouseEnter: this.handleMouseEnter,
-	        onMouseLeave: this.handleMouseLeave
-	      },
-	      this._render_close_button(),
-	      this._render_title_element(),
-	      this._render_message_element()
-	    );
-	  }
-	};
-
-	var animation = exports.animation = _react2.default.createClass((0, _reactAddonsUpdate2.default)(ToastMessageSpec, {
-	  displayName: { $set: "ToastMessage.animation" },
-	  mixins: { $set: [_animationMixin2.default] }
-	}));
-
-	var jQuery = exports.jQuery = _react2.default.createClass((0, _reactAddonsUpdate2.default)(ToastMessageSpec, {
-	  displayName: { $set: "ToastMessage.jQuery" },
-	  mixins: { $set: [_jQueryMixin2.default] }
-	}));
-
-	/*
-	 * assign default noop functions
-	 */
-	ToastMessageSpec.handleMouseEnter = noop;
-	ToastMessageSpec.handleMouseLeave = noop;
-	ToastMessageSpec.hideToast = noop;
-
-	var ToastMessage = _react2.default.createClass(ToastMessageSpec);
-
-	ToastMessage.animation = animation;
-	ToastMessage.jQuery = jQuery;
-
-	exports.default = ToastMessage;
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _CSSCore = __webpack_require__(24);
-
-	var _CSSCore2 = _interopRequireDefault(_CSSCore);
-
-	var _ReactTransitionEvents = __webpack_require__(26);
-
-	var _ReactTransitionEvents2 = _interopRequireDefault(_ReactTransitionEvents);
-
-	var _reactDom = __webpack_require__(6);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var TICK = 17;
-	var toString = Object.prototype.toString;
-	exports.default = {
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      transition: null, // some examples defined in index.scss (scale, fadeInOut, rotate)
-	      showAnimation: "animated bounceIn", // or other animations from animate.css
-	      hideAnimation: "animated bounceOut",
-	      timeOut: 5000,
-	      extendedTimeOut: 1000
-	    };
-	  },
-	  componentWillMount: function componentWillMount() {
-	    this.classNameQueue = [];
-	    this.isHiding = false;
-	    this.intervalId = null;
-	  },
-	  componentDidMount: function componentDidMount() {
-	    var _this = this;
-
-	    this._is_mounted = true;
-	    this._show();
-	    var node = _reactDom2.default.findDOMNode(this);
-
-	    var onHideComplete = function onHideComplete() {
-	      if (_this.isHiding) {
-	        _this._set_is_hiding(false);
-	        _ReactTransitionEvents2.default.removeEndEventListener(node, onHideComplete);
-	        _this._handle_remove();
-	      }
-	    };
-	    _ReactTransitionEvents2.default.addEndEventListener(node, onHideComplete);
-
-	    if (this.props.timeOut > 0) {
-	      this._set_interval_id(setTimeout(this.hideToast, this.props.timeOut));
-	    }
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    this._is_mounted = false;
-	    if (this.intervalId) {
-	      clearTimeout(this.intervalId);
-	    }
-	  },
-	  _set_transition: function _set_transition(hide) {
-	    var animationType = hide ? "leave" : "enter";
-	    var node = _reactDom2.default.findDOMNode(this);
-	    var className = this.props.transition + "-" + animationType;
-	    var activeClassName = className + "-active";
-
-	    var endListener = function endListener(e) {
-	      if (e && e.target !== node) {
-	        return;
-	      }
-
-	      _CSSCore2.default.removeClass(node, className);
-	      _CSSCore2.default.removeClass(node, activeClassName);
-
-	      _ReactTransitionEvents2.default.removeEndEventListener(node, endListener);
-	    };
-
-	    _ReactTransitionEvents2.default.addEndEventListener(node, endListener);
-
-	    _CSSCore2.default.addClass(node, className);
-
-	    // Need to do this to actually trigger a transition.
-	    this._queue_class(activeClassName);
-	  },
-	  _clear_transition: function _clear_transition(hide) {
-	    var node = _reactDom2.default.findDOMNode(this);
-	    var animationType = hide ? "leave" : "enter";
-	    var className = this.props.transition + "-" + animationType;
-	    var activeClassName = className + "-active";
-
-	    _CSSCore2.default.removeClass(node, className);
-	    _CSSCore2.default.removeClass(node, activeClassName);
-	  },
-	  _set_animation: function _set_animation(hide) {
-	    var node = _reactDom2.default.findDOMNode(this);
-	    var animations = this._get_animation_classes(hide);
-	    var endListener = function endListener(e) {
-	      if (e && e.target !== node) {
-	        return;
-	      }
-
-	      animations.forEach(function (anim) {
-	        _CSSCore2.default.removeClass(node, anim);
-	      });
-
-	      _ReactTransitionEvents2.default.removeEndEventListener(node, endListener);
-	    };
-
-	    _ReactTransitionEvents2.default.addEndEventListener(node, endListener);
-
-	    animations.forEach(function (anim) {
-	      _CSSCore2.default.addClass(node, anim);
-	    });
-	  },
-	  _get_animation_classes: function _get_animation_classes(hide) {
-	    var animations = hide ? this.props.hideAnimation : this.props.showAnimation;
-	    if ("[object Array]" === toString.call(animations)) {
-	      return animations;
-	    } else if ("string" === typeof animations) {
-	      return animations.split(" ");
-	    }
-	  },
-	  _clear_animation: function _clear_animation(hide) {
-	    var _this2 = this;
-
-	    var animations = this._get_animation_classes(hide);
-	    animations.forEach(function (animation) {
-	      _CSSCore2.default.removeClass(_reactDom2.default.findDOMNode(_this2), animation);
-	    });
-	  },
-	  _queue_class: function _queue_class(className) {
-	    this.classNameQueue.push(className);
-
-	    if (!this.timeout) {
-	      this.timeout = setTimeout(this._flush_class_name_queue, TICK);
-	    }
-	  },
-	  _flush_class_name_queue: function _flush_class_name_queue() {
-	    if (this._is_mounted) {
-	      this.classNameQueue.forEach(_CSSCore2.default.addClass.bind(_CSSCore2.default, _reactDom2.default.findDOMNode(this)));
-	    }
-	    this.classNameQueue.length = 0;
-	    this.timeout = null;
-	  },
-	  _show: function _show() {
-	    if (this.props.transition) {
-	      this._set_transition();
-	    } else if (this.props.showAnimation) {
-	      this._set_animation();
-	    }
-	  },
-	  handleMouseEnter: function handleMouseEnter() {
-	    clearTimeout(this.intervalId);
-	    this._set_interval_id(null);
-	    if (this.isHiding) {
-	      this._set_is_hiding(false);
-
-	      if (this.props.hideAnimation) {
-	        this._clear_animation(true);
-	      } else if (this.props.transition) {
-	        this._clear_transition(true);
-	      }
-	    }
-	  },
-	  handleMouseLeave: function handleMouseLeave() {
-	    if (!this.isHiding && (this.props.timeOut > 0 || this.props.extendedTimeOut > 0)) {
-	      this._set_interval_id(setTimeout(this.hideToast, this.props.extendedTimeOut));
-	    }
-	  },
-	  hideToast: function hideToast(override) {
-	    if (this.isHiding || this.intervalId === null && !override) {
-	      return;
-	    }
-
-	    this._set_is_hiding(true);
-	    if (this.props.transition) {
-	      this._set_transition(true);
-	    } else if (this.props.hideAnimation) {
-	      this._set_animation(true);
-	    } else {
-	      this._handle_remove();
-	    }
-	  },
-	  _set_interval_id: function _set_interval_id(intervalId) {
-	    this.intervalId = intervalId;
-	  },
-	  _set_is_hiding: function _set_is_hiding(isHiding) {
-	    this.isHiding = isHiding;
-	  }
-	};
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule CSSCore
-	 * @typechecks
-	 */
-
-	'use strict';
-
-	var invariant = __webpack_require__(25);
-
-	/**
-	 * The CSSCore module specifies the API (and implements most of the methods)
-	 * that should be used when dealing with the display of elements (via their
-	 * CSS classes and visibility on screen. It is an API focused on mutating the
-	 * display and not reading it as no logical state should be encoded in the
-	 * display of elements.
-	 */
-
-	var CSSCore = {
-
-	  /**
-	   * Adds the class passed in to the element if it doesn't already have it.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  addClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.add(className);
-	      } else if (!CSSCore.hasClass(element, className)) {
-	        element.className = element.className + ' ' + className;
-	      }
-	    }
-	    return element;
-	  },
-
-	  /**
-	   * Removes the class passed in from the element
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  removeClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.remove(className);
-	      } else if (CSSCore.hasClass(element, className)) {
-	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
-	        .replace(/^\s*|\s*$/g, ''); // trim the ends
-	      }
-	    }
-	    return element;
-	  },
-
-	  /**
-	   * Helper to add or remove a class from an element based on a condition.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @param {*} bool condition to whether to add or remove the class
-	   * @return {DOMElement} the element passed in
-	   */
-	  conditionClass: function (element, className, bool) {
-	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
-	  },
-
-	  /**
-	   * Tests whether the element has the class specified.
-	   *
-	   * @param {DOMNode|DOMWindow} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {boolean} true if the element has the class, false if not
-	   */
-	  hasClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : undefined;
-	    if (element.classList) {
-	      return !!className && element.classList.contains(className);
-	    }
-	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-	  }
-
-	};
-
-	module.exports = CSSCore;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-
-	'use strict';
-
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	      error.name = 'Invariant Violation';
-	    }
-
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	}
-
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionEvents
-	 */
-
-	'use strict';
-
-	var ExecutionEnvironment = __webpack_require__(27);
-
-	/**
-	 * EVENT_NAME_MAP is used to determine which event fired when a
-	 * transition/animation ends, based on the style property used to
-	 * define that event.
-	 */
-	var EVENT_NAME_MAP = {
-	  transitionend: {
-	    'transition': 'transitionend',
-	    'WebkitTransition': 'webkitTransitionEnd',
-	    'MozTransition': 'mozTransitionEnd',
-	    'OTransition': 'oTransitionEnd',
-	    'msTransition': 'MSTransitionEnd'
-	  },
-
-	  animationend: {
-	    'animation': 'animationend',
-	    'WebkitAnimation': 'webkitAnimationEnd',
-	    'MozAnimation': 'mozAnimationEnd',
-	    'OAnimation': 'oAnimationEnd',
-	    'msAnimation': 'MSAnimationEnd'
-	  }
-	};
-
-	var endEvents = [];
-
-	function detectEvents() {
-	  var testEl = document.createElement('div');
-	  var style = testEl.style;
-
-	  // On some platforms, in particular some releases of Android 4.x,
-	  // the un-prefixed "animation" and "transition" properties are defined on the
-	  // style object but the events that fire will still be prefixed, so we need
-	  // to check if the un-prefixed events are useable, and if not remove them
-	  // from the map
-	  if (!('AnimationEvent' in window)) {
-	    delete EVENT_NAME_MAP.animationend.animation;
-	  }
-
-	  if (!('TransitionEvent' in window)) {
-	    delete EVENT_NAME_MAP.transitionend.transition;
-	  }
-
-	  for (var baseEventName in EVENT_NAME_MAP) {
-	    var baseEvents = EVENT_NAME_MAP[baseEventName];
-	    for (var styleName in baseEvents) {
-	      if (styleName in style) {
-	        endEvents.push(baseEvents[styleName]);
-	        break;
-	      }
-	    }
-	  }
-	}
-
-	if (ExecutionEnvironment.canUseDOM) {
-	  detectEvents();
-	}
-
-	// We use the raw {add|remove}EventListener() call because EventListener
-	// does not know how to remove event listeners and we really should
-	// clean up. Also, these events are not triggered in older browsers
-	// so we should be A-OK here.
-
-	function addEventListener(node, eventName, eventListener) {
-	  node.addEventListener(eventName, eventListener, false);
-	}
-
-	function removeEventListener(node, eventName, eventListener) {
-	  node.removeEventListener(eventName, eventListener, false);
-	}
-
-	var ReactTransitionEvents = {
-	  addEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      // If CSS transitions are not supported, trigger an "end animation"
-	      // event immediately.
-	      window.setTimeout(eventListener, 0);
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      addEventListener(node, endEvent, eventListener);
-	    });
-	  },
-
-	  removeEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      removeEventListener(node, endEvent, eventListener);
-	    });
-	  }
-	};
-
-	module.exports = ReactTransitionEvents;
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ExecutionEnvironment
-	 */
-
-	'use strict';
-
-	var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-
-	/**
-	 * Simple, lightweight module assisting with the detection and context of
-	 * Worker. Helps avoid circular dependencies and allows code to reason about
-	 * whether or not they are in a Worker, even if they never include the main
-	 * `ReactWorker` dependency.
-	 */
-	var ExecutionEnvironment = {
-
-	  canUseDOM: canUseDOM,
-
-	  canUseWorkers: typeof Worker !== 'undefined',
-
-	  canUseEventListeners: canUseDOM && !!(window.addEventListener || window.attachEvent),
-
-	  canUseViewport: canUseDOM && !!window.screen,
-
-	  isInWorker: !canUseDOM // For now, this is true - might change in the future.
-
-	};
-
-	module.exports = ExecutionEnvironment;
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactDom = __webpack_require__(6);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function call_show_method($node, props) {
-	  $node[props.showMethod]({
-	    duration: props.showDuration,
-	    easing: props.showEasing
-	  });
-	}
-
-	exports.default = {
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      style: {
-	        display: "none" },
-	      // effective $.hide()
-	      showMethod: "fadeIn", // slideDown, and show are built into jQuery
-	      showDuration: 300,
-	      showEasing: "swing", // and linear are built into jQuery
-	      hideMethod: "fadeOut",
-	      hideDuration: 1000,
-	      hideEasing: "swing",
-	      //
-	      timeOut: 5000,
-	      extendedTimeOut: 1000
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      intervalId: null,
-	      isHiding: false
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    call_show_method(this._get_$_node(), this.props);
-	    if (this.props.timeOut > 0) {
-	      this._set_interval_id(setTimeout(this.hideToast, this.props.timeOut));
-	    }
-	  },
-	  handleMouseEnter: function handleMouseEnter() {
-	    clearTimeout(this.state.intervalId);
-	    this._set_interval_id(null);
-	    this._set_is_hiding(false);
-
-	    call_show_method(this._get_$_node().stop(true, true), this.props);
-	  },
-	  handleMouseLeave: function handleMouseLeave() {
-	    if (!this.state.isHiding && (this.props.timeOut > 0 || this.props.extendedTimeOut > 0)) {
-	      this._set_interval_id(setTimeout(this.hideToast, this.props.extendedTimeOut));
-	    }
-	  },
-	  hideToast: function hideToast(override) {
-	    if (this.state.isHiding || this.state.intervalId === null && !override) {
-	      return;
-	    }
-	    this.setState({ isHiding: true });
-
-	    this._get_$_node()[this.props.hideMethod]({
-	      duration: this.props.hideDuration,
-	      easing: this.props.hideEasing,
-	      complete: this._handle_remove
-	    });
-	  },
-	  _get_$_node: function _get_$_node() {
-	    /* eslint-disable no-undef */
-	    return jQuery(_reactDom2.default.findDOMNode(this));
-	    /* eslint-enable no-undef */
-	  },
-	  _set_interval_id: function _set_interval_id(intervalId) {
-	    this.setState({
-	      intervalId: intervalId
-	    });
-	  },
-	  _set_is_hiding: function _set_is_hiding(isHiding) {
-	    this.setState({
-	      isHiding: isHiding
-	    });
-	  }
-	};
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _PageButtonJs = __webpack_require__(30);
+	var _PageButtonJs = __webpack_require__(14);
 
 	var _PageButtonJs2 = _interopRequireDefault(_PageButtonJs);
 
@@ -4037,179 +2762,211 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Const2 = _interopRequireDefault(_Const);
 
-	var PaginationList = (function (_Component) {
-	  _inherits(PaginationList, _Component);
+	var PaginationList = (function (_React$Component) {
+	  _inherits(PaginationList, _React$Component);
 
-	  function PaginationList() {
+	  function PaginationList(props) {
 	    var _this = this;
 
 	    _classCallCheck(this, PaginationList);
 
-	    _get(Object.getPrototypeOf(PaginationList.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(PaginationList.prototype), 'constructor', this).call(this, props);
 
-	    this.changePage = function (page) {
-	      var _props = _this.props;
-	      var pageStartIndex = _props.pageStartIndex;
-	      var prePage = _props.prePage;
-	      var currPage = _props.currPage;
-	      var nextPage = _props.nextPage;
-	      var lastPage = _props.lastPage;
-	      var firstPage = _props.firstPage;
-	      var sizePerPage = _props.sizePerPage;
-
-	      if (page === prePage) {
-	        page = currPage - 1 < pageStartIndex ? pageStartIndex : currPage - 1;
-	      } else if (page === nextPage) {
-	        page = currPage + 1 > _this.lastPage ? _this.lastPage : currPage + 1;
-	      } else if (page === lastPage) {
-	        page = _this.lastPage;
-	      } else if (page === firstPage) {
-	        page = pageStartIndex;
-	      } else {
-	        page = parseInt(page, 10);
-	      }
-
-	      if (page !== currPage) {
-	        _this.props.changePage(page, sizePerPage);
+	    this.documentClick = function (e) {
+	      var box = _this.refs.pageDropDown;
+	      var parentDom = box && box.parentNode;
+	      if (parentDom && !box.contains(e.target)) {
+	        box.setAttribute("aria-expanded", false);
+	        parentDom.className = "dropup";
 	      }
 	    };
 
-	    this.changeSizePerPage = function (e) {
-	      e.preventDefault();
-
-	      var selectSize = parseInt(e.currentTarget.text, 10);
-	      var currPage = _this.props.currPage;
-
-	      if (selectSize !== _this.props.sizePerPage) {
-	        _this.totalPages = Math.ceil(_this.props.dataSize / selectSize);
-	        _this.lastPage = _this.props.pageStartIndex + _this.totalPages - 1;
-	        if (currPage > _this.lastPage) currPage = _this.lastPage;
-	        _this.props.changePage(currPage, selectSize);
-	        if (_this.props.onSizePerPageList) {
-	          _this.props.onSizePerPageList(selectSize);
-	        }
-	      }
+	    this.state = {
+	      searchPage: ""
 	    };
 	  }
 
 	  _createClass(PaginationList, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.currPage != this.state.searchPage) this.setState({ searchPage: nextProps.currPage });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      document.addEventListener('click', this.documentClick);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      document.removeEventListener('click', this.documentClick);
+	    }
+	  }, {
+	    key: 'changePage',
+	    value: function changePage(page) {
+	      if (page == this.props.prePage) {
+	        page = this.props.currPage - 1 < 1 ? 1 : this.props.currPage - 1;
+	      } else if (page == this.props.nextPage) {
+	        page = this.props.currPage + 1 > this.totalPages ? this.totalPages : this.props.currPage + 1;
+	      } else if (page == this.props.lastPage) {
+	        page = this.totalPages;
+	      } else if (page == this.props.firstPage) {
+	        page = 1;
+	      } else {
+	        page = parseInt(page);
+	      }
+	      page = isNaN(page) ? 1 : page;
+	      page = page > this.totalPages ? this.totalPages : page;
+	      if (page != this.props.currPage) {
+	        this.props.changePage(page, this.props.sizePerPage);
+	      }
+	      this.setState({ searchPage: page });
+	    }
+	  }, {
+	    key: 'changeSizePerPage',
+	    value: function changeSizePerPage(e) {
+	      e.preventDefault();
+
+	      var selectSize = parseInt(e.currentTarget.text);
+	      var currPage = this.props.currPage;
+
+	      if (selectSize != this.props.sizePerPage) {
+	        this.totalPages = Math.ceil(this.props.dataSize / selectSize);
+	        if (currPage > this.totalPages) currPage = this.totalPages;
+
+	        this.props.changePage(currPage, selectSize);
+	        if (this.props.onSizePerPageList) {
+	          this.props.onSizePerPageList(selectSize);
+	        }
+
+	        this.setState({ searchPage: currPage });
+
+	        var currentDom = this.refs.pageDropDown;
+	        var parentDom = currentDom.parentNode;
+	        currentDom.setAttribute("aria-expanded", false);
+	        parentDom.className = "dropup";
+	      }
+	    }
+	  }, {
+	    key: 'gotoPageHandle',
+	    value: function gotoPageHandle(e) {
+	      e.preventDefault();
+	      var searchPage = e.currentTarget.value;
+	      this.setState({ searchPage: searchPage });
+	    }
+	  }, {
+	    key: 'pageDropHandle',
+	    value: function pageDropHandle(e) {
+	      e.preventDefault();
+	      var currentDom = e.currentTarget;
+	      var parentDom = currentDom.parentNode;
+	      var status = currentDom.getAttribute("aria-expanded");
+	      if (status == "true") {
+	        currentDom.setAttribute("aria-expanded", false);
+	        parentDom.className = "dropup";
+	      } else {
+	        currentDom.setAttribute("aria-expanded", true);
+	        parentDom.className = "dropup open";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
 
-	      var _props2 = this.props;
-	      var currPage = _props2.currPage;
-	      var dataSize = _props2.dataSize;
-	      var sizePerPage = _props2.sizePerPage;
-	      var sizePerPageList = _props2.sizePerPageList;
-	      var paginationShowsTotal = _props2.paginationShowsTotal;
-	      var pageStartIndex = _props2.pageStartIndex;
-	      var hideSizePerPage = _props2.hideSizePerPage;
-
-	      this.totalPages = Math.ceil(dataSize / sizePerPage);
-	      this.lastPage = this.props.pageStartIndex + this.totalPages - 1;
+	      this.totalPages = Math.ceil(this.props.dataSize / this.props.sizePerPage);
 	      var pageBtns = this.makePage();
 	      var pageListStyle = {
-	        float: 'right',
-	        // override the margin-top defined in .pagination class in bootstrap.
-	        marginTop: '0px'
+	        float: "right",
+	        marginTop: "0px" //override the margin-top defined in .pagination class in bootstrap.
 	      };
 
-	      var sizePerPageOptions = sizePerPageList.map(function (_sizePerPage) {
+	      var sizePerPageList = this.props.sizePerPageList.map(function (sizePerPage) {
 	        return _react2['default'].createElement(
 	          'li',
-	          { key: _sizePerPage, role: 'presentation' },
+	          { key: sizePerPage, role: 'presentation' },
 	          _react2['default'].createElement(
 	            'a',
-	            { role: 'menuitem',
-	              tabIndex: '-1', href: '#',
-	              onClick: _this2.changeSizePerPage },
-	            _sizePerPage
+	            { role: 'menuitem', tabIndex: '-1', href: '#', onClick: _this2.changeSizePerPage.bind(_this2) },
+	            sizePerPage
 	          )
 	        );
 	      });
 
-	      var offset = Math.abs(_Const2['default'].PAGE_START_INDEX - pageStartIndex);
-	      var start = (currPage - pageStartIndex) * sizePerPage;
-	      var to = Math.min(sizePerPage * (currPage + offset) - 1, dataSize);
-	      var total = paginationShowsTotal ? _react2['default'].createElement(
-	        'span',
-	        null,
-	        'Showing rows ',
-	        start,
-	        ' to ',
-	        to,
-	        ' of ',
-	        dataSize
-	      ) : null;
-
-	      if (typeof paginationShowsTotal === 'function') {
-	        total = paginationShowsTotal(start, to, dataSize);
-	      }
-
-	      var dropDownStyle = {
-	        visibility: hideSizePerPage ? 'hidden' : 'visible'
-	      };
-
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'row', style: { marginTop: 15 } },
-	        sizePerPageList.length > 1 ? _react2['default'].createElement(
+	        { style: { marginTop: 15 } },
+	        this.props.sizePerPageList.length > 1 ? _react2['default'].createElement(
 	          'div',
-	          null,
+	          { className: 'clearfix' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'col-md-6' },
-	            total,
-	            ' ',
+	            { className: 'dropup', id: 'paginationDropDown' },
 	            _react2['default'].createElement(
-	              'span',
-	              { className: 'dropdown', style: dropDownStyle },
+	              'button',
+	              { ref: 'pageDropDown', className: 'btn btn-default dropup-toggle', type: 'button', id: 'pageDropDown', 'data-toggle': 'dropdown', 'aria-expanded': 'false', onClick: this.pageDropHandle.bind(this) },
+	              this.props.sizePerPage,
 	              _react2['default'].createElement(
-	                'button',
-	                { className: 'btn btn-default dropdown-toggle',
-	                  type: 'button', id: 'pageDropDown', 'data-toggle': 'dropdown',
-	                  'aria-expanded': 'true' },
-	                sizePerPage,
-	                _react2['default'].createElement(
-	                  'span',
-	                  null,
-	                  ' ',
-	                  _react2['default'].createElement('span', { className: 'caret' })
-	                )
-	              ),
-	              _react2['default'].createElement(
-	                'ul',
-	                { className: 'dropdown-menu', role: 'menu', 'aria-labelledby': 'pageDropDown' },
-	                sizePerPageOptions
+	                'span',
+	                null,
+	                " ",
+	                _react2['default'].createElement('span', { className: 'caret' })
 	              )
+	            ),
+	            _react2['default'].createElement(
+	              'ul',
+	              { className: 'dropup-menu', role: 'menu', 'aria-labelledby': 'pageDropDown' },
+	              sizePerPageList
 	            )
 	          ),
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'col-md-6' },
+	            { className: 'paginationDesc' },
 	            _react2['default'].createElement(
-	              'ul',
-	              { className: 'pagination', style: pageListStyle },
-	              pageBtns
+	              'span',
+	              { className: 'gotoPage' },
+	              '转到 ',
+	              _react2['default'].createElement('input', { value: this.state.searchPage, onChange: this.gotoPageHandle.bind(this) }),
+	              ' / ',
+	              this.totalPages,
+	              '   页'
+	            ),
+	            _react2['default'].createElement(
+	              'a',
+	              { href: 'javascript:void(0)', className: 'gotoPageBtn', onClick: this.changePage.bind(this, this.state.searchPage) },
+	              'Go'
 	            )
+	          ),
+	          _react2['default'].createElement(
+	            'ul',
+	            { className: 'pagination', style: pageListStyle },
+	            pageBtns
 	          )
 	        ) : _react2['default'].createElement(
 	          'div',
-	          null,
+	          { className: 'clearfix' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'col-md-6' },
-	            total
+	            { className: 'paginationDesc' },
+	            _react2['default'].createElement(
+	              'span',
+	              { className: 'gotoPage' },
+	              '转到 ',
+	              _react2['default'].createElement('input', { value: this.state.searchPage, onChange: this.gotoPageHandle.bind(this) }),
+	              ' / ',
+	              this.totalPages,
+	              '   页'
+	            ),
+	            _react2['default'].createElement(
+	              'a',
+	              { href: 'javascript:void(0)', className: 'gotoPageBtn', onClick: this.changePage.bind(this, this.state.searchPage) },
+	              'Go'
+	            )
 	          ),
 	          _react2['default'].createElement(
-	            'div',
-	            { className: 'col-md-6' },
-	            _react2['default'].createElement(
-	              'ul',
-	              { className: 'pagination', style: pageListStyle },
-	              pageBtns
-	            )
+	            'ul',
+	            { className: 'pagination', style: pageListStyle },
+	            pageBtns
 	          )
 	        )
 	      );
@@ -4222,21 +2979,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var isActive = page === this.props.currPage;
 	        var disabled = false;
 	        var hidden = false;
-	        if (this.props.currPage === this.props.pageStartIndex && (page === this.props.firstPage || page === this.props.prePage)) {
+	        if (this.props.currPage == 1 && (page === this.props.firstPage || page === this.props.prePage)) {
 	          disabled = true;
 	          hidden = true;
 	        }
-	        if (this.props.currPage === this.lastPage && (page === this.props.nextPage || page === this.props.lastPage)) {
+	        if (this.props.currPage == this.totalPages && (page === this.props.nextPage || page === this.props.lastPage)) {
 	          disabled = true;
 	          hidden = true;
 	        }
 	        return _react2['default'].createElement(
 	          _PageButtonJs2['default'],
-	          { key: page,
-	            changePage: this.changePage,
-	            active: isActive,
-	            disable: disabled,
-	            hidden: hidden },
+	          { changePage: this.changePage.bind(this), active: isActive, disable: disabled, hidden: hidden, key: page },
 	          page
 	        );
 	      }, this);
@@ -4244,68 +2997,71 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getPages',
 	    value: function getPages() {
-	      var pages = undefined;
-	      var endPage = this.totalPages;
-	      if (endPage <= 0) return [];
-	      var startPage = Math.max(this.props.currPage - Math.floor(this.props.paginationSize / 2), this.props.pageStartIndex);
+	      var startPage = 1,
+	          endPage = this.totalPages;
+
+	      startPage = Math.max(this.props.currPage - Math.floor(this.props.paginationSize / 2), 1);
 	      endPage = startPage + this.props.paginationSize - 1;
 
-	      if (endPage > this.lastPage) {
-	        endPage = this.lastPage;
+	      if (endPage > this.totalPages) {
+	        endPage = this.totalPages;
 	        startPage = endPage - this.props.paginationSize + 1;
 	      }
-
-	      if (startPage !== this.props.pageStartIndex && this.totalPages > this.props.paginationSize) {
+	      var pages;
+	      if (startPage != 1 && this.totalPages > this.props.paginationSize) {
 	        pages = [this.props.firstPage, this.props.prePage];
 	      } else if (this.totalPages > 1) {
 	        pages = [this.props.prePage];
 	      } else {
 	        pages = [];
 	      }
-
 	      for (var i = startPage; i <= endPage; i++) {
-	        if (i >= this.props.pageStartIndex) pages.push(i);
+	        if (i > 0) pages.push(i);
 	      }
-
-	      if (endPage < this.lastPage) {
+	      if (endPage != this.totalPages) {
 	        pages.push(this.props.nextPage);
 	        pages.push(this.props.lastPage);
-	      } else if (endPage === this.lastPage && this.props.currPage !== this.lastPage) {
+	      } else if (this.totalPages > 1) {
 	        pages.push(this.props.nextPage);
 	      }
-
 	      return pages;
+	    }
+	  }, {
+	    key: 'getCurrentPage',
+	    value: function getCurrentPage() {
+	      return this.props.currPage;
+	    }
+	  }, {
+	    key: 'getSizePerPage',
+	    value: function getSizePerPage() {
+	      return this.props.sizePerPage;
 	    }
 	  }]);
 
 	  return PaginationList;
-	})(_react.Component);
+	})(_react2['default'].Component);
 
 	PaginationList.propTypes = {
-	  currPage: _react.PropTypes.number,
-	  sizePerPage: _react.PropTypes.number,
-	  dataSize: _react.PropTypes.number,
-	  changePage: _react.PropTypes.func,
-	  sizePerPageList: _react.PropTypes.array,
-	  paginationShowsTotal: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.func]),
-	  paginationSize: _react.PropTypes.number,
-	  remote: _react.PropTypes.bool,
-	  onSizePerPageList: _react.PropTypes.func,
-	  prePage: _react.PropTypes.string,
-	  pageStartIndex: _react.PropTypes.number,
-	  hideSizePerPage: _react.PropTypes.bool
+	  currPage: _react2['default'].PropTypes.number,
+	  sizePerPage: _react2['default'].PropTypes.number,
+	  dataSize: _react2['default'].PropTypes.number,
+	  changePage: _react2['default'].PropTypes.func,
+	  sizePerPageList: _react2['default'].PropTypes.array,
+	  paginationSize: _react2['default'].PropTypes.number,
+	  remote: _react2['default'].PropTypes.bool,
+	  onSizePerPageList: _react2['default'].PropTypes.func,
+	  prePage: _react2['default'].PropTypes.string
 	};
 
 	PaginationList.defaultProps = {
-	  sizePerPage: _Const2['default'].SIZE_PER_PAGE,
-	  pageStartIndex: _Const2['default'].PAGE_START_INDEX
+	  sizePerPage: _Const2['default'].SIZE_PER_PAGE
 	};
 
 	exports['default'] = PaginationList;
 	module.exports = exports['default'];
 
 /***/ },
-/* 30 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4383,7 +3139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 31 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4418,9 +3174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _NotificationJs = __webpack_require__(13);
-
-	var _NotificationJs2 = _interopRequireDefault(_NotificationJs);
+	// import Notifier from '../Notification.js';
 
 	var ToolBar = (function (_Component) {
 	  _inherits(ToolBar, _Component);
@@ -4447,7 +3201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      var msg = _this.props.onAddRow(newObj);
 	      if (msg) {
-	        _this.refs.notifier.notice('error', msg, 'Pressed ESC can cancel');
+	        // this.refs.notifier.notice('error', msg, 'Pressed ESC can cancel');
 	        _this.clearTimeout();
 	        // shake form and hack prevent modal hide
 	        _this.setState({
@@ -4611,7 +3365,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // show error in form and shake it
 	        this.setState({ validateState: validateState, shakeEditor: true });
 	        // notifier error
-	        this.refs.notifier.notice('error', 'Form validate errors, please checking!', 'Pressed ESC can cancel');
+	        // this.refs.notifier.notice(
+	        //   'error',
+	        //   'Form validate errors, please checking!',
+	        //   'Pressed ESC can cancel');
 	        // clear animate class
 	        this.timeouteClear = setTimeout(function () {
 	          _this3.setState({ shakeEditor: false });
@@ -4707,7 +3464,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          { className: 'col-xs-12 col-sm-6 col-md-6 col-lg-4' },
 	          searchTextInput
 	        ),
-	        _react2['default'].createElement(_NotificationJs2['default'], { ref: 'notifier' }),
 	        modal
 	      );
 	    }
@@ -4905,7 +3661,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 32 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5040,7 +3796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 33 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint no-nested-ternary: 0 */
@@ -5698,7 +4454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.TableDataStore = TableDataStore;
 
 /***/ },
-/* 34 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5766,7 +4522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 35 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint block-scoped-var: 0 */
@@ -5781,12 +4537,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _util = __webpack_require__(34);
+	var _util = __webpack_require__(18);
 
 	var _util2 = _interopRequireDefault(_util);
 
 	if (_util2['default'].canUseDOM()) {
-	  var filesaver = __webpack_require__(36);
+	  var filesaver = __webpack_require__(20);
 	  var saveAs = filesaver.saveAs;
 	}
 
@@ -5826,7 +4582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 36 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
@@ -6087,21 +4843,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	if (typeof module !== "undefined" && module.exports) {
 		module.exports.saveAs = saveAs;
-	} else if ("function" !== "undefined" && __webpack_require__(37) !== null && __webpack_require__(38) != null) {
+	} else if ("function" !== "undefined" && __webpack_require__(21) !== null && __webpack_require__(22) != null) {
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
 			return saveAs;
 		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	}
 
 /***/ },
-/* 37 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 38 */
+/* 22 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -6109,7 +4865,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 39 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6132,7 +4888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Const2 = _interopRequireDefault(_Const);
 
-	var _events = __webpack_require__(40);
+	var _events = __webpack_require__(24);
 
 	var Filter = (function (_EventEmitter) {
 	  _inherits(Filter, _EventEmitter);
@@ -6179,7 +4935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Filter = Filter;
 
 /***/ },
-/* 40 */
+/* 24 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -6265,11 +5021,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        break;
 	      // slower
 	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
+	        len = arguments.length;
+	        args = new Array(len - 1);
+	        for (i = 1; i < len; i++)
+	          args[i - 1] = arguments[i];
 	        handler.apply(this, args);
 	    }
 	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
+	    len = arguments.length;
+	    args = new Array(len - 1);
+	    for (i = 1; i < len; i++)
+	      args[i - 1] = arguments[i];
+
 	    listeners = handler.slice();
 	    len = listeners.length;
 	    for (i = 0; i < len; i++)
@@ -6307,6 +5070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // Check for listener leak
 	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    var m;
 	    if (!isUndefined(this._maxListeners)) {
 	      m = this._maxListeners;
 	    } else {
@@ -6428,7 +5192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  if (isFunction(listeners)) {
 	    this.removeListener(type, listeners);
-	  } else if (listeners) {
+	  } else {
 	    // LIFO order
 	    while (listeners.length)
 	      this.removeListener(type, listeners[listeners.length - 1]);
@@ -6449,20 +5213,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return ret;
 	};
 
-	EventEmitter.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-
 	EventEmitter.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
+	  var ret;
+	  if (!emitter._events || !emitter._events[type])
+	    ret = 0;
+	  else if (isFunction(emitter._events[type]))
+	    ret = 1;
+	  else
+	    ret = emitter._events[type].length;
+	  return ret;
 	};
 
 	function isFunction(arg) {
@@ -6483,7 +5242,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint default-case: 0 */
@@ -6514,27 +5273,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Const2 = _interopRequireDefault(_Const);
 
-	var _util = __webpack_require__(34);
+	var _util = __webpack_require__(18);
 
 	var _util2 = _interopRequireDefault(_util);
 
-	var _filtersDate = __webpack_require__(42);
+	var _filtersDate = __webpack_require__(26);
 
 	var _filtersDate2 = _interopRequireDefault(_filtersDate);
 
-	var _filtersText = __webpack_require__(43);
+	var _filtersText = __webpack_require__(27);
 
 	var _filtersText2 = _interopRequireDefault(_filtersText);
 
-	var _filtersRegex = __webpack_require__(44);
+	var _filtersRegex = __webpack_require__(28);
 
 	var _filtersRegex2 = _interopRequireDefault(_filtersRegex);
 
-	var _filtersSelect = __webpack_require__(45);
+	var _filtersSelect = __webpack_require__(29);
 
 	var _filtersSelect2 = _interopRequireDefault(_filtersSelect);
 
-	var _filtersNumber = __webpack_require__(46);
+	var _filtersNumber = __webpack_require__(30);
 
 	var _filtersNumber2 = _interopRequireDefault(_filtersNumber);
 
@@ -6782,7 +5541,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	TableHeaderColumn.defaultProps = {
 	  dataAlign: 'left',
 	  headerAlign: undefined,
-	  dataSort: false,
+	  dataSort: true,
 	  dataFormat: undefined,
 	  csvFormat: undefined,
 	  csvHeader: undefined,
@@ -6810,7 +5569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 42 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint quotes: 0 */
@@ -6994,7 +5753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 43 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7107,7 +5866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 44 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7220,7 +5979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 45 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7349,7 +6108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 46 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -17,7 +17,37 @@ class TableBody extends Component {
       currEditCell: null
     };
     this.editing = false;
+    //rowSpan 功能
+    this.rowSpanArray = {}
   }
+
+  // rowSpan 功能
+
+  handleRowSpan(index) {
+
+    return this.rowSpanArray[index];
+
+  }
+
+  setRowSpan(index, value) {
+
+    if(this.rowSpanArray[index]) {
+
+      value += this.rowSpanArray[index];
+
+    }
+
+    this.rowSpanArray[index] = value;
+  }
+
+  resetRowSpan(){
+
+    this.rowSpanArray ={};
+
+  }
+
+  // --
+
 
   render() {
     const tableClasses = classSet('table', {
@@ -28,6 +58,15 @@ class TableBody extends Component {
       'table-wrap': this.props.wrap
     }, this.props.tableBodyClass);
 
+    // rowSpan 功能
+
+    let current_groupby_field_value;
+    let current_groupby_field_index;
+    let groupbyColumn = this.props.groupbyColumn || '';
+    this.resetRowSpan();
+
+    // --
+
     const unselectable = this.props.selectRow.unselectable || [];
     const isSelectRowDefined = this._isSelectRowDefined();
     const tableHeader = this.renderTableHeader(isSelectRowDefined);
@@ -35,8 +74,21 @@ class TableBody extends Component {
     const CustomComponent = this.props.selectRow.customComponent;
 
     const tableRows = this.props.data.map(function(data, r) {
-      const tableColumns = this.props.columns.map(function(column, i) {
+      const tableColumns = [];
+      this.props.columns.forEach(function(column, i) {
         const fieldValue = data[column.name];
+
+        //rowSpan 功能
+        if(groupbyColumn == column.name &&(!current_groupby_field_value || current_groupby_field_value != fieldValue)) {
+          current_groupby_field_value = fieldValue;
+          current_groupby_field_index = r;
+        }
+
+        if(groupbyColumn == column.name) {
+          this.setRowSpan(current_groupby_field_index, 1);
+        }
+        // --
+
         if (this.editing &&
           column.name !== this.props.keyField && // Key field can't be edit
           column.editable && // column is editable? default is true, user can set it false
@@ -51,7 +103,18 @@ class TableBody extends Component {
             editable = column.editable(fieldValue, data, r, i);
           }
 
-          return (
+          // rowSpan 功能 修改原来列加载方式
+          if(groupbyColumn != column.name || (groupbyColumn == column.name && current_groupby_field_index == r)) {
+
+            let rowSpanFn = this.handleRowSpan.bind(this,r);
+
+            if(groupbyColumn != column.name) {
+
+              rowSpanFn = null
+
+            }
+
+            tableColumns.push(
               <TableEditColumn
                 completeEdit={ this.handleCompleteEditCell }
                 // add by bluespring for column editor customize
@@ -60,11 +123,16 @@ class TableBody extends Component {
                 format={ column.format ? format : false }
                 key={ i }
                 blurToSave={ this.props.cellEdit.blurToSave }
+                rowSpan = { rowSpanFn }
                 rowIndex={ r }
                 colIndex={ i }
                 row={ data }
                 fieldValue={ fieldValue } />
             );
+          }
+
+
+          //--
         } else {
           // add by bluespring for className customize
           let columnChild = fieldValue && fieldValue.toString();
@@ -87,18 +155,34 @@ class TableBody extends Component {
           } else {
             columnTitle = column.columnTitle && fieldValue ? fieldValue.toString() : null;
           }
-          return (
-            <TableColumn key={ i }
-              dataAlign={ column.align }
-              className={ tdClassName }
-              columnTitle={ columnTitle }
-              cellEdit={ this.props.cellEdit }
-              hidden={ column.hidden }
-              onEdit={ this.handleEditCell }
-              width={ column.width }>
-              { columnChild }
-            </TableColumn>
-          );
+
+          // rowSpan 功能 修改原来列加载方式
+          if( groupbyColumn != column.name || (groupbyColumn == column.name && current_groupby_field_index == r)) {
+
+            //
+            let rowSpanFn = this.handleRowSpan.bind(this,r);
+
+            if(groupbyColumn != column.name) {
+
+              rowSpanFn = null
+
+            }
+
+            tableColumns.push(
+              <TableColumn key={ i }
+                dataAlign={ column.align }
+                className={ tdClassName }
+                columnTitle={ columnTitle }
+                cellEdit={ this.props.cellEdit }
+                hidden={ column.hidden }
+                onEdit={ this.handleEditCell }
+                rowSpan = { rowSpanFn }
+                width={ column.width }>
+                { columnChild }
+              </TableColumn>
+            )
+          }
+          //--
         }
       }, this);
       const key = data[this.props.keyField];
@@ -111,8 +195,9 @@ class TableBody extends Component {
       if (isFun(this.props.trClassName)) {
         trClassName = this.props.trClassName(data, r);
       }
+      //todo force render key to index 恢复使用索引做key
       return (
-        <TableRow isSelected={ selected } key={ key } className={ trClassName }
+        <TableRow isSelected={ selected } key={ r } className={ trClassName }
           selectRow={ isSelectRowDefined ? this.props.selectRow : undefined }
           enableCellEdit={ this.props.cellEdit.mode !== Const.CELL_EDIT_NONE }
           onRowClick={ this.handleRowClick }

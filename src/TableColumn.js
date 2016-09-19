@@ -73,8 +73,15 @@ class TableColumn extends Component {
         opts.onDoubleClick = this.handleCellEdit;
       }
     }
+    // rowSpan 功能
+    let rowSpanValue =  1;
+    if(this.props.rowSpan) {
+      rowSpanValue = this.props.rowSpan();
+    }
+    // --
     return (
       <td style={ tdStyle }
+          rowSpan={ rowSpanValue }
           title={ this.props.columnTitle }
           className={ this.props.className }
           { ...opts }>

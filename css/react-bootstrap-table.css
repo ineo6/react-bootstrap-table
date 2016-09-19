@@ -22,10 +22,10 @@
   text-overflow: ellipsis;
 }
 .react-bs-table table.table-wrap td{
-    word-break:break-all;
-    word-wrap:break-word;
-    white-space: pre-wrap;
-    text-overflow: clip;
+  word-break:break-all;
+  word-wrap:break-word;
+  white-space: pre-wrap;
+  text-overflow: clip;
 }
 .react-bs-table {
   margin: 5px 10px 5px 10px;
@@ -51,7 +51,7 @@
 }
 
 .react-bs-table .table-bordered {
-    border: 0px;
+  border: 0px;
 }
 .react-bs-table .table-bordered > thead > tr > th,
 .react-bs-table .table-bordered > thead > tr > td {
@@ -136,6 +136,61 @@
   cursor: pointer;
 }
 
+
+.react-bs-table-container .react-bs-table-container {
+  border: 1px solid #dddddd;
+}
+
+
+
+.react-bs-table-container .table-header{
+  border: hidden;
+  overflow: hidden;
+}
+
+.react-bs-table-container .table-header > table{
+  /*table-layout: fixed;*/
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.react-bs-table-container .table-header > table > thead > tr{
+  border-bottom-style: hidden;
+}
+
+.react-bs-table-container .table-header > table > thead > tr > th {
+  vertical-align: inherit;
+}
+
+.react-bs-table-container .table-container > table > tbody > tr > td,
+.react-bs-table-container .table-container > table > thead > tr > th,
+.react-bs-table-container .table-header > table > thead > tr > th .table-header-column{
+  line-height: 25px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.react-bs-table-container .table-container{
+  overflow: auto;
+  height: 100%;
+}
+
+.react-bs-table-container .table-container > table{
+  margin-top: -42px;
+  /*table-layout: fixed;*/
+  margin-bottom: 0px;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  border-bottom-style: hidden;
+  border-top-width: 0px;
+  width: 100%;
+}
+
 /*inline editor default style*/
 .react-bs-container .form-control.editor{
   /*width:100%;
@@ -146,6 +201,21 @@
 }
 
 .react-bs-container  .textarea-save-btn{
+  /*position: absolute;*/
+  /*z-index: 100;*/
+  /*right: 0;*/
+  /*top: -21px;*/
+}
+
+.react-bs-table-container .editor{
+  width:100%;
+  height: 100%;
+  padding: 4px;
+  margin-bottom: 0;
+  border: 1px solid #eaeaea;
+}
+
+.react-bs-table-container  .textarea-save-btn{
   position: absolute;
   z-index: 100;
   right: 0;
