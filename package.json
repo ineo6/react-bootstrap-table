@@ -21,7 +21,6 @@
   "files": [
     "README.md",
     "lib/",
-    "dist/",
     "css/"
   ],
   "tags": [
