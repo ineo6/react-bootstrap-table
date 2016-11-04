@@ -22,6 +22,30 @@ class Checkbox extends Component {
 
 class TableHeader extends Component {
 
+  renderTableHeader() {
+
+      const theader = React.Children.map(this.props.children, (elm,i) => {
+
+          const style = {
+              display: elm.props.hidden ? 'none' : null
+          };
+          if (elm.props.width) {
+              const width = parseInt(elm.props.width, 10);
+              style.width = width;
+              /** add min-wdth to fix user assign column width
+               not eq offsetWidth in large column table **/
+              style.minWidth = width;
+          }
+          return (<col style={ style } key={ i } ></col>);
+      });
+
+    return (
+        <colgroup ref='header'>
+            { theader }
+        </colgroup>
+    );
+  }
+
   render() {
     const containerClasses = classSet(
       'react-bs-container-header',
@@ -37,6 +61,7 @@ class TableHeader extends Component {
     return (
       <div ref='container' className={ containerClasses } style={ this.props.style }>
         <table className={ tableClasses }>
+          { this.renderTableHeader() }
           <thead>
             <tr ref='header'>
               { selectRowHeaderCol }

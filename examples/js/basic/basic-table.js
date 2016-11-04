@@ -23,8 +23,8 @@ export default class BasicTable extends React.Component {
   render() {
     return (
       <BootstrapTable data={ products }>
-          <TableHeaderColumn dataField='id' isKey={ true }>Product ID</TableHeaderColumn>
-          <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+          <TableHeaderColumn dataField='id' width="100px" isKey={ true }>Product ID</TableHeaderColumn>
+          <TableHeaderColumn dataField='name' hidden={true}>Product Name</TableHeaderColumn>
           <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
       </BootstrapTable>
     );

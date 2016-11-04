@@ -1536,6 +1536,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(TableHeader, [{
+	    key: 'renderTableHeader',
+	    value: function renderTableHeader() {
+
+	      var theader = _react2['default'].Children.map(this.props.children, function (elm, i) {
+
+	        var style = {
+	          display: elm.props.hidden ? 'none' : null
+	        };
+	        if (elm.props.width) {
+	          var width = parseInt(elm.props.width, 10);
+	          style.width = width;
+	          /** add min-wdth to fix user assign column width
+	           not eq offsetWidth in large column table **/
+	          style.minWidth = width;
+	        }
+	        return _react2['default'].createElement('col', { style: style, key: i });
+	      });
+
+	      return _react2['default'].createElement(
+	        'colgroup',
+	        { ref: 'header' },
+	        theader
+	      );
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this = this;
@@ -1554,6 +1579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2['default'].createElement(
 	          'table',
 	          { className: tableClasses },
+	          this.renderTableHeader(),
 	          _react2['default'].createElement(
 	            'thead',
 	            null,
