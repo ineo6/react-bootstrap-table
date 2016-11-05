@@ -2093,7 +2093,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          not eq offsetWidth in large column table **/
 	          style.minWidth = width;
 	        }
-	        return _react2['default'].createElement('col', { style: style, key: i, className: column.className });
+	        //return (<col style={ style } key={ i } className={ column.className }></col>);
+	        return _react2['default'].createElement('col', { style: style, key: i });
 	      });
 
 	      return _react2['default'].createElement(

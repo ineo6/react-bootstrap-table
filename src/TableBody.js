@@ -261,7 +261,8 @@ class TableBody extends Component {
         not eq offsetWidth in large column table **/
         style.minWidth = width;
       }
-      return (<col style={ style } key={ i } className={ column.className }></col>);
+      //return (<col style={ style } key={ i } className={ column.className }></col>);
+      return (<col style={ style } key={ i } ></col>);
     });
 
     return (
