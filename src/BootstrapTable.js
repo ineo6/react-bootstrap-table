@@ -785,6 +785,7 @@ class BootstrapTable extends Component {
             remote={ this.isRemoteDataSource() }
             dataSize={ dataSize }
             onSizePerPageList={ options.onSizePerPageList }
+            onSizePerPageListClick={ options.onSizePerPageListClick }
             prePage={ options.prePage || Const.PRE_PAGE }
             nextPage={ options.nextPage || Const.NEXT_PAGE }
             firstPage={ options.firstPage || Const.FIRST_PAGE }
@@ -1026,6 +1027,7 @@ BootstrapTable.propTypes = {
     onSortChange: PropTypes.func,
     onPageChange: PropTypes.func,
     onSizePerPageList: PropTypes.func,
+    onSizePerPageListClick: PropTypes.func,
     onFilterChange: React.PropTypes.func,
     onSearchChange: React.PropTypes.func,
     onAddRow: React.PropTypes.func,
@@ -1123,6 +1125,7 @@ BootstrapTable.defaultProps = {
     paginationSize: Const.PAGINATION_SIZE,
     hideSizePerPage: false,
     onSizePerPageList: undefined,
+    onSizePerPageListClick: undefined,
     noDataText: undefined,
     handleConfirmDeleteRow: undefined,
     prePage: Const.PRE_PAGE,

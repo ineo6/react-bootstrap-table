@@ -74,15 +74,19 @@ class PaginationList extends React.Component {
   }
   pageDropHandle(e){
     e.preventDefault();
-    let currentDom = e.currentTarget;
-    let parentDom = currentDom.parentNode;
-    let status = currentDom.getAttribute("aria-expanded");
-    if(status== "true"){
-      currentDom.setAttribute("aria-expanded",false);
-      parentDom.className = "dropup";
-    }else{
-      currentDom.setAttribute("aria-expanded",true);
-      parentDom.className = "dropup open";
+    if(this.props.onSizePerPageListClick) {
+      this.props.onSizePerPageListClick(e);
+    } else {
+      let currentDom = e.currentTarget;
+      let parentDom = currentDom.parentNode;
+      let status = currentDom.getAttribute("aria-expanded");
+      if(status== "true"){
+        currentDom.setAttribute("aria-expanded",false);
+        parentDom.className = "dropup";
+      }else{
+        currentDom.setAttribute("aria-expanded",true);
+        parentDom.className = "dropup open";
+      }
     }
   }
   documentClick =(e)=>{
@@ -218,6 +222,7 @@ PaginationList.propTypes = {
   paginationSize: React.PropTypes.number,
   remote: React.PropTypes.bool,
   onSizePerPageList: React.PropTypes.func,
+  onSizePerPageListClick: React.PropTypes.func,
   prePage: React.PropTypes.string
 };
 
