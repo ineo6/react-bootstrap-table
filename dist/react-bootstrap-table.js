@@ -1030,6 +1030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            remote: this.isRemoteDataSource(),
 	            dataSize: dataSize,
 	            onSizePerPageList: options.onSizePerPageList,
+	            onSizePerPageListClick: options.onSizePerPageListClick,
 	            prePage: options.prePage || _Const2['default'].PRE_PAGE,
 	            nextPage: options.nextPage || _Const2['default'].NEXT_PAGE,
 	            firstPage: options.firstPage || _Const2['default'].FIRST_PAGE,
@@ -1218,6 +1219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onSortChange: _react.PropTypes.func,
 	    onPageChange: _react.PropTypes.func,
 	    onSizePerPageList: _react.PropTypes.func,
+	    onSizePerPageListClick: _react.PropTypes.func,
 	    onFilterChange: _react2['default'].PropTypes.func,
 	    onSearchChange: _react2['default'].PropTypes.func,
 	    onAddRow: _react2['default'].PropTypes.func,
@@ -1315,6 +1317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    paginationSize: _Const2['default'].PAGINATION_SIZE,
 	    hideSizePerPage: false,
 	    onSizePerPageList: undefined,
+	    onSizePerPageListClick: undefined,
 	    noDataText: undefined,
 	    handleConfirmDeleteRow: undefined,
 	    prePage: _Const2['default'].PRE_PAGE,
@@ -2885,15 +2888,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'pageDropHandle',
 	    value: function pageDropHandle(e) {
 	      e.preventDefault();
-	      var currentDom = e.currentTarget;
-	      var parentDom = currentDom.parentNode;
-	      var status = currentDom.getAttribute("aria-expanded");
-	      if (status == "true") {
-	        currentDom.setAttribute("aria-expanded", false);
-	        parentDom.className = "dropup";
+	      if (this.props.onSizePerPageListClick) {
+	        this.props.onSizePerPageListClick(e);
 	      } else {
-	        currentDom.setAttribute("aria-expanded", true);
-	        parentDom.className = "dropup open";
+	        var currentDom = e.currentTarget;
+	        var parentDom = currentDom.parentNode;
+	        var _status = currentDom.getAttribute("aria-expanded");
+	        if (_status == "true") {
+	          currentDom.setAttribute("aria-expanded", false);
+	          parentDom.className = "dropup";
+	        } else {
+	          currentDom.setAttribute("aria-expanded", true);
+	          parentDom.className = "dropup open";
+	        }
 	      }
 	    }
 	  }, {
@@ -3077,6 +3084,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  paginationSize: _react2['default'].PropTypes.number,
 	  remote: _react2['default'].PropTypes.bool,
 	  onSizePerPageList: _react2['default'].PropTypes.func,
+	  onSizePerPageListClick: _react2['default'].PropTypes.func,
 	  prePage: _react2['default'].PropTypes.string
 	};
 
