@@ -288,6 +288,7 @@ class BootstrapTable extends Component {
             onSelectAllRow={ this.handleSelectAllRow }
             bordered={ this.props.bordered }
             condensed={ this.props.condensed }
+            columnFix={ this.props.columnFix }
             isFiltered={ this.filter ? true : false }
             isSelectAll={ isSelectAll }>
             { this.props.children }
@@ -1053,7 +1054,8 @@ BootstrapTable.propTypes = {
   }),
   exportCSV: PropTypes.bool,
   csvFileName: PropTypes.oneOfType([ PropTypes.string, PropTypes.func ]),
-  ignoreSinglePage: PropTypes.bool
+  ignoreSinglePage: PropTypes.bool,
+  columnFix: PropTypes.bool,
 };
 BootstrapTable.defaultProps = {
   height: '100%',
@@ -1147,7 +1149,8 @@ BootstrapTable.defaultProps = {
   },
   exportCSV: false,
   csvFileName: 'spreadsheet.csv',
-  ignoreSinglePage: false
+  ignoreSinglePage: false,
+  columnFix: false
 };
 
 export default BootstrapTable;

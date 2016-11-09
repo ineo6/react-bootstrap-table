@@ -830,6 +830,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              onSelectAllRow: this.handleSelectAllRow,
 	              bordered: this.props.bordered,
 	              condensed: this.props.condensed,
+	              columnFix: this.props.columnFix,
 	              isFiltered: this.filter ? true : false,
 	              isSelectAll: isSelectAll },
 	            this.props.children
@@ -1245,7 +1246,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }),
 	  exportCSV: _react.PropTypes.bool,
 	  csvFileName: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.func]),
-	  ignoreSinglePage: _react.PropTypes.bool
+	  ignoreSinglePage: _react.PropTypes.bool,
+	  columnFix: _react.PropTypes.bool
 	};
 	BootstrapTable.defaultProps = {
 	  height: '100%',
@@ -1339,7 +1341,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  exportCSV: false,
 	  csvFileName: 'spreadsheet.csv',
-	  ignoreSinglePage: false
+	  ignoreSinglePage: false,
+	  columnFix: false
 	};
 
 	exports['default'] = BootstrapTable;
@@ -1541,19 +1544,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(TableHeader, [{
 	    key: 'renderTableHeader',
 	    value: function renderTableHeader() {
+	      var _this = this;
 
 	      var theader = _react2['default'].Children.map(this.props.children, function (elm, i) {
 
 	        var style = {
 	          display: elm.props.hidden ? 'none' : null
 	        };
-	        // if (elm.props.width) {
-	        //     const width = parseInt(elm.props.width, 10);
-	        //     style.width = width;
-	        //     /** add min-wdth to fix user assign column width
-	        //      not eq offsetWidth in large column table **/
-	        //     style.minWidth = width;
-	        // }
+	        if (elm.props.width && _this.props.columnFix) {
+	          var width = parseInt(elm.props.width, 10);
+	          style.width = width;
+	          /** add min-wdth to fix user assign column width
+	           not eq offsetWidth in large column table **/
+	          style.minWidth = width;
+	        }
 	        return _react2['default'].createElement('col', { style: style, key: i });
 	      });
 
@@ -1566,7 +1570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var containerClasses = (0, _classnames2['default'])('react-bs-container-header', 'table-header-wrapper', this.props.headerContainerClass);
 	      var tableClasses = (0, _classnames2['default'])('table', 'table-hover', {
@@ -1591,7 +1595,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              { ref: 'header' },
 	              selectRowHeaderCol,
 	              _react2['default'].Children.map(this.props.children, function (elm) {
-	                var _props = _this.props;
+	                var _props = _this2.props;
 	                var sortIndicator = _props.sortIndicator;
 	                var sortName = _props.sortName;
 	                var sortOrder = _props.sortOrder;

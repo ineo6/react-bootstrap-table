@@ -29,13 +29,13 @@ class TableHeader extends Component {
           const style = {
               display: elm.props.hidden ? 'none' : null
           };
-          // if (elm.props.width) {
-          //     const width = parseInt(elm.props.width, 10);
-          //     style.width = width;
-          //     /** add min-wdth to fix user assign column width
-          //      not eq offsetWidth in large column table **/
-          //     style.minWidth = width;
-          // }
+          if (elm.props.width && this.props.columnFix) {
+              const width = parseInt(elm.props.width, 10);
+              style.width = width;
+              /** add min-wdth to fix user assign column width
+               not eq offsetWidth in large column table **/
+              style.minWidth = width;
+          }
           return (<col style={ style } key={ i } ></col>);
       });
 
