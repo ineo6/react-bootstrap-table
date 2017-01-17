@@ -231,6 +231,7 @@ ul.pagination > .active > a, ul.pagination > .active > a:focus, ul.pagination > 
     display: inline-block;
     float: right;
     margin: 0 10px;
+    margin-right: 0;
     font-size: 14px;
     line-height: 32px;
     height: 32px;
