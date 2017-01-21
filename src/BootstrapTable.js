@@ -303,7 +303,6 @@ class BootstrapTable extends Component {
             striped={ this.props.striped }
             bordered={ this.props.bordered }
             hover={ this.props.hover }
-            wrap={ this.props.wrap }
             keyField={ this.store.getKeyField() }
             condensed={ this.props.condensed }
             selectRow={ this.props.selectRow }
@@ -314,7 +313,9 @@ class BootstrapTable extends Component {
             onRowMouseOut={ this.handleRowMouseOut }
             onSelectRow={ this.handleSelectRow }
             noDataText={ this.props.options.noDataText }
-            groupbyColumn={this.props.groupbyColumn}/>
+            groupbyColumn={this.props.groupbyColumn}
+            wrap={ this.props.wrap }
+            view={ this.props.view }/>
         </div>
         { tableFilter }
         { pagination }
@@ -1056,6 +1057,7 @@ BootstrapTable.propTypes = {
   csvFileName: PropTypes.oneOfType([ PropTypes.string, PropTypes.func ]),
   ignoreSinglePage: PropTypes.bool,
   columnFix: PropTypes.bool,
+  view: PropTypes.bool,
 };
 BootstrapTable.defaultProps = {
   height: '100%',
@@ -1150,7 +1152,8 @@ BootstrapTable.defaultProps = {
   exportCSV: false,
   csvFileName: 'spreadsheet.csv',
   ignoreSinglePage: false,
-  columnFix: false
+  columnFix: false,
+  view: true
 };
 
 export default BootstrapTable;

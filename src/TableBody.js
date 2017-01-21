@@ -195,9 +195,9 @@ class TableBody extends Component {
       if (isFun(this.props.trClassName)) {
         trClassName = this.props.trClassName(data, r);
       }
-      //todo force render key to index 恢复使用索引做key
+      //todo force render key to index 恢复使用索引做key,临时分流
       return (
-        <TableRow isSelected={ selected } key={ r } className={ trClassName }
+        <TableRow isSelected={ selected } key={ this.props.view ? r : key } className={ trClassName }
           selectRow={ isSelectRowDefined ? this.props.selectRow : undefined }
           enableCellEdit={ this.props.cellEdit.mode !== Const.CELL_EDIT_NONE }
           onRowClick={ this.handleRowClick }

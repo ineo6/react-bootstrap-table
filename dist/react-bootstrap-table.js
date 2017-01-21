@@ -845,7 +845,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            striped: this.props.striped,
 	            bordered: this.props.bordered,
 	            hover: this.props.hover,
-	            wrap: this.props.wrap,
 	            keyField: this.store.getKeyField(),
 	            condensed: this.props.condensed,
 	            selectRow: this.props.selectRow,
@@ -856,7 +855,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onRowMouseOut: this.handleRowMouseOut,
 	            onSelectRow: this.handleSelectRow,
 	            noDataText: this.props.options.noDataText,
-	            groupbyColumn: this.props.groupbyColumn })
+	            groupbyColumn: this.props.groupbyColumn,
+	            wrap: this.props.wrap,
+	            view: this.props.view })
 	        ),
 	        tableFilter,
 	        pagination
@@ -1247,7 +1248,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  exportCSV: _react.PropTypes.bool,
 	  csvFileName: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.func]),
 	  ignoreSinglePage: _react.PropTypes.bool,
-	  columnFix: _react.PropTypes.bool
+	  columnFix: _react.PropTypes.bool,
+	  view: _react.PropTypes.bool
 	};
 	BootstrapTable.defaultProps = {
 	  height: '100%',
@@ -1342,7 +1344,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  exportCSV: false,
 	  csvFileName: 'spreadsheet.csv',
 	  ignoreSinglePage: false,
-	  columnFix: false
+	  columnFix: false,
+	  view: true
 	};
 
 	exports['default'] = BootstrapTable;
@@ -2027,10 +2030,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (isFun(this.props.trClassName)) {
 	          trClassName = this.props.trClassName(data, r);
 	        }
-	        //todo force render key to index 恢复使用索引做key
+	        //todo force render key to index 恢复使用索引做key,临时分流
 	        return _react2['default'].createElement(
 	          _TableRow2['default'],
-	          { isSelected: selected, key: r, className: trClassName,
+	          { isSelected: selected, key: this.props.view ? r : key, className: trClassName,
 	            selectRow: isSelectRowDefined ? this.props.selectRow : undefined,
 	            enableCellEdit: this.props.cellEdit.mode !== _Const2['default'].CELL_EDIT_NONE,
 	            onRowClick: this.handleRowClick,
