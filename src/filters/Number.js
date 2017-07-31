@@ -37,7 +37,7 @@ class NumberFilter extends Component {
   onChangeNumberSet(event) {
     const comparator = this.refs.numberFilterComparator.value;
     const { value } = event.target;
-    this.setState({ isPlaceholderSelected: (value === '') });
+    this.setState(() => { return { isPlaceholderSelected: (value === '') }; });
     if (comparator === '') {
       return;
     }
@@ -56,7 +56,7 @@ class NumberFilter extends Component {
   cleanFiltered() {
     const value = (this.props.defaultValue) ? this.props.defaultValue.number : '';
     const comparator = (this.props.defaultValue) ? this.props.defaultValue.comparator : '';
-    this.setState({ isPlaceholderSelected: (value === '') });
+    this.setState(() => { return { isPlaceholderSelected: (value === '') }; });
     this.refs.numberFilterComparator.value = comparator;
     this.refs.numberFilter.value = value;
     this.props.filterHandler({ number: value, comparator }, Const.FILTER_TYPE.NUMBER);
@@ -64,7 +64,7 @@ class NumberFilter extends Component {
 
   applyFilter(filterObj) {
     const { number, comparator } = filterObj;
-    this.setState({ isPlaceholderSelected: (number === '') });
+    this.setState(() => { return { isPlaceholderSelected: (number === '') }; });
     this.refs.numberFilterComparator.value = comparator;
     this.refs.numberFilter.value = number;
     this.props.filterHandler({ number, comparator }, Const.FILTER_TYPE.NUMBER);
@@ -72,7 +72,10 @@ class NumberFilter extends Component {
 
   getComparatorOptions() {
     const optionTags = [];
-    optionTags.push(<option key='-1'></option>);
+    const { withoutEmptyComparatorOption } = this.props;
+    if (!withoutEmptyComparatorOption) {
+      optionTags.push(<option key='-1'></option>);
+    }
     for (let i = 0; i < this.numberComparators.length; i++) {
       optionTags.push(
         <option key={ i } value={ this.numberComparators[i] }>
@@ -85,13 +88,14 @@ class NumberFilter extends Component {
 
   getNumberOptions() {
     const optionTags = [];
-    const { options } = this.props;
-
-    optionTags.push(
-      <option key='-1' value=''>
-        { this.props.placeholder || `Select ${this.props.columnName}...` }
-      </option>
-    );
+    const { options, withoutEmptyNumberOption } = this.props;
+    if (!withoutEmptyNumberOption) {
+      optionTags.push(
+        <option key='-1' value=''>
+          { this.props.placeholder || `Select ${this.props.columnName}...` }
+        </option>
+      );
+    }
     for (let i = 0; i < options.length; i++) {
       optionTags.push(<option key={ i } value={ options[i] }>{ options[i] }</option>);
     }
@@ -118,6 +122,7 @@ class NumberFilter extends Component {
     return (
       <div className='filter number-filter'>
         <select ref='numberFilterComparator'
+                style={ this.props.style.comparator }
                 className='number-filter-comparator form-control'
                 onChange={ this.onChangeComparator }
                 defaultValue={
@@ -137,6 +142,7 @@ class NumberFilter extends Component {
             </select> :
             <input ref='numberFilter'
                    type='number'
+                   style={ this.props.style.number }
                    className='number-filter-input form-control'
                    placeholder={ this.props.placeholder || `Enter ${this.props.columnName}...` }
                    onChange={ this.onChangeNumber }
@@ -155,6 +161,10 @@ NumberFilter.propTypes = {
   defaultValue: PropTypes.shape({
     number: PropTypes.number,
     comparator: PropTypes.oneOf(legalComparators)
+  }),
+  style: PropTypes.shape({
+    number: PropTypes.oneOfType([ PropTypes.object ]),
+    comparator: PropTypes.oneOfType([ PropTypes.object ])
   }),
   delay: PropTypes.number,
   /* eslint consistent-return: 0 */
@@ -177,11 +187,19 @@ NumberFilter.propTypes = {
     }
   },
   placeholder: PropTypes.string,
-  columnName: PropTypes.string
+  columnName: PropTypes.string,
+  withoutEmptyComparatorOption: PropTypes.bool,
+  withoutEmptyNumberOption: PropTypes.bool
 };
 
 NumberFilter.defaultProps = {
-  delay: Const.FILTER_DELAY
+  delay: Const.FILTER_DELAY,
+  withoutEmptyComparatorOption: false,
+  withoutEmptyNumberOption: false,
+  style: {
+    number: null,
+    comparator: null
+  }
 };
 
 export default NumberFilter;

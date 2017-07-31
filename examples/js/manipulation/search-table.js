@@ -36,7 +36,7 @@ const options = {
 export default class SearchTable extends React.Component {
   render() {
     return (
-      <BootstrapTable data={ products } search={ true } options={ options }>
+      <BootstrapTable data={ products } search={ true } strictSearch={ false } options={ options }>
           <TableHeaderColumn dataField='id' isKey={ true } searchable={ false }>Product ID</TableHeaderColumn>
           <TableHeaderColumn dataField='name'>Fruit Name</TableHeaderColumn>
           <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>

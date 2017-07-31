@@ -9,19 +9,47 @@ if (Util.canUseDOM()) {
   var saveAs = filesaver.saveAs;
 }
 
-function toString(data, keys) {
+function toString(data, keys, separator, excludeCSVHeader) {
   let dataString = '';
   if (data.length === 0) return dataString;
 
-  dataString += keys.map(x => x.header).join(',') + '\n';
+  const headCells = [];
+  let rowCount = 0;
+  keys.forEach(key => {
+    if (key.row > rowCount) {
+      rowCount = key.row;
+    }
+    // rowCount += (key.rowSpan + key.colSpan - 1);
+    for (var index = 0; index < key.colSpan; index++) {
+      headCells.push(key);
+    }
+  });
+
+  const firstRow = excludeCSVHeader ? 1 : 0;
+  for (let i = firstRow; i <= rowCount; i++) {
+    dataString += headCells.map(x => {
+      if ((x.row + (x.rowSpan - 1)) === i) {
+        return x.header;
+      }
+      if (x.row === i && x.rowSpan > 1) {
+        return '';
+      }
+    }).filter(key => {
+      return typeof key !== 'undefined';
+    }).join(separator) + '\n';
+  }
+
+  keys = keys.filter(key => {
+    return key.field !== undefined;
+  });
 
   data.map(function(row) {
     keys.map(function(col, i) {
-      const { field, format } = col;
-      const value = typeof format !== 'undefined' ? format(row[field], row) : row[field];
+      const { field, format, extraData } = col;
+      const value = typeof format !== 'undefined' ? format(row[field], row, extraData) : row[field];
       const cell = typeof value !== 'undefined' ? ('"' + value + '"') : '';
       dataString += cell;
-      if (i + 1 < keys.length) dataString += ',';
+      if (i + 1 < keys.length) dataString += separator;
     });
 
     dataString += '\n';
@@ -30,12 +58,13 @@ function toString(data, keys) {
   return dataString;
 }
 
-const exportCSV = function(data, keys, filename) {
-  const dataString = toString(data, keys);
+const exportCSV = function(data, keys, filename, separator, noAutoBOM, excludeCSVHeader) {
+  const dataString = toString(data, keys, separator, excludeCSVHeader);
   if (typeof window !== 'undefined') {
+    noAutoBOM = noAutoBOM === undefined ? true : noAutoBOM;
     saveAs(new Blob([ dataString ],
         { type: 'text/plain;charset=utf-8' }),
-        filename, true);
+        filename, noAutoBOM);
   }
 };
 
