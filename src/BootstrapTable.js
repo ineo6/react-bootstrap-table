@@ -1169,7 +1169,7 @@ class BootstrapTable extends Component {
             firstPageTitle={ options.firstPageTitle || Const.FIRST_PAGE_TITLE }
             lastPageTitle={ options.lastPageTitle || Const.LAST_PAGE_TITLE }
             hideSizePerPage={ options.hideSizePerPage }
-            sizePerPageDropDown={ options.sizePerPageDropDown }
+            sizePerPageDropDown={ this.props.sizePerPageDropDownAlias }
             hidePageListOnlyOnePage={ options.hidePageListOnlyOnePage }
             paginationPanel={ options.paginationPanel }
             keepSizePerPageState={ options.keepSizePerPageState }
@@ -1592,6 +1592,7 @@ BootstrapTable.propTypes = {
   }),
   columnFix: PropTypes.bool,
   view: PropTypes.bool,
+  sizePerPageDropDownAlias: PropTypes.func,
 };
 BootstrapTable.defaultProps = {
   replace: false,
@@ -1744,7 +1745,8 @@ BootstrapTable.defaultProps = {
   csvFileName: 'spreadsheet.csv',
   ignoreSinglePage: false,
   columnFix: false,
-  view: true
+  view: true,
+  sizePerPageDropDownAlias: undefined,
 };
 
 export default BootstrapTable;
