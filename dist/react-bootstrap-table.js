@@ -1621,7 +1621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            hideSizePerPage: options.hideSizePerPage,
 	            sizePerPageDropDown: this.props.sizePerPageDropDownAlias,
 	            hidePageListOnlyOnePage: options.hidePageListOnlyOnePage,
-	            paginationPanel: options.paginationPanel,
+	            paginationPanel: this.props.paginationPanelAlias,
 	            keepSizePerPageState: options.keepSizePerPageState,
 	            open: false })
 	        );
@@ -2045,7 +2045,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }),
 	  columnFix: _react.PropTypes.bool,
 	  view: _react.PropTypes.bool,
-	  sizePerPageDropDownAlias: _react.PropTypes.func
+	  sizePerPageDropDownAlias: _react.PropTypes.func,
+	  paginationPanelAlias: _react.PropTypes.func
 	};
 	BootstrapTable.defaultProps = {
 	  replace: false,
@@ -2199,7 +2200,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ignoreSinglePage: false,
 	  columnFix: false,
 	  view: true,
-	  sizePerPageDropDownAlias: undefined
+	  sizePerPageDropDownAlias: undefined,
+	  paginationPanelAlias: undefined
 	};
 
 	var _default = BootstrapTable;
