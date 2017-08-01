@@ -1619,7 +1619,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            firstPageTitle: options.firstPageTitle || _Const2.default.FIRST_PAGE_TITLE,
 	            lastPageTitle: options.lastPageTitle || _Const2.default.LAST_PAGE_TITLE,
 	            hideSizePerPage: options.hideSizePerPage,
-	            sizePerPageDropDown: options.sizePerPageDropDown,
+	            sizePerPageDropDown: this.props.sizePerPageDropDownAlias,
 	            hidePageListOnlyOnePage: options.hidePageListOnlyOnePage,
 	            paginationPanel: options.paginationPanel,
 	            keepSizePerPageState: options.keepSizePerPageState,
@@ -2044,7 +2044,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    expandColumnBeforeSelectColumn: _react.PropTypes.bool
 	  }),
 	  columnFix: _react.PropTypes.bool,
-	  view: _react.PropTypes.bool
+	  view: _react.PropTypes.bool,
+	  sizePerPageDropDownAlias: _react.PropTypes.func
 	};
 	BootstrapTable.defaultProps = {
 	  replace: false,
@@ -2197,7 +2198,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  csvFileName: 'spreadsheet.csv',
 	  ignoreSinglePage: false,
 	  columnFix: false,
-	  view: true
+	  view: true,
+	  sizePerPageDropDownAlias: undefined
 	};
 
 	var _default = BootstrapTable;
