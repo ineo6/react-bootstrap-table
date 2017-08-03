@@ -159,7 +159,7 @@ class PaginationList extends Component {
         changeSizePerPage: this.changeSizePerPage
       });
       //todo hack dropdown
-      if (false || dropdown.type.name === SizePerPageDropDown.name) {
+      if (false) {
         dropdownProps = dropdown.props;
       } else {
         return dropdown;
