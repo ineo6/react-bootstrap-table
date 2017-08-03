@@ -11294,7 +11294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          changeSizePerPage: this.changeSizePerPage
 	        });
 	        //todo hack dropdown
-	        if (false || dropdown.type.name === _SizePerPageDropDown2.default.name) {
+	        if (false) {
 	          dropdownProps = dropdown.props;
 	        } else {
 	          return dropdown;
