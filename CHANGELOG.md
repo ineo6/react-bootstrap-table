@@ -1,3 +1,17 @@
+<a name="v3.5.1"></a>
+# [v3.5.1](https://github.com/AllenFang/react-bootstrap-table/compare/v3.5.0...v3.5.1) (2017-08-02)
+## Bug fixes
+* Fix [#1518](https://github.com/AllenFang/react-bootstrap-table/issues/1518)([20284d2](https://github.com/AllenFang/react-bootstrap-table/commit/20284d2365f85c0180eb6c73d9253c6483a7597c))
+
+<a name="v3.5.0"></a>
+# [v3.5.0](https://github.com/AllenFang/react-bootstrap-table/compare/v3.4.6...v3.5.0) (2017-07-29)
+## Bug fixes
+* Fix [#1510](https://github.com/AllenFang/react-bootstrap-table/issues/1510)([a2eb599](https://github.com/AllenFang/react-bootstrap-table/commit/a2eb599da37620122752e608f37fe4d99f7494f2))
+
+## Enhancement
+* Pass `rowIndex` as fourth argument for `selectRow.onSelect`([e4a8d0b](https://github.com/AllenFang/react-bootstrap-table/commit/e4a8d0bd8bda223cc51911d0fe7b39a034924c4c))
+* [PR#1504](https://github.com/AllenFang/react-bootstrap-table/pull/1504)([60dab6f](https://github.com/AllenFang/react-bootstrap-table/commit/60dab6f7705a176a7e852b83bf2c67b5751ba6f9))
+
 <a name="v3.4.6"></a>
 # [v3.4.6](https://github.com/AllenFang/react-bootstrap-table/compare/v3.4.5...v3.4.6) (2017-07-16)
 ## Bug fixes
