@@ -3,6 +3,7 @@
 /* eslint no-var: 0 */
 /* eslint no-unused-vars: 0 */
 import Util from './util';
+import Const from './Const';
 
 if (Util.canUseDOM()) {
   const filesaver = require('./filesaver');
@@ -29,7 +30,7 @@ function toString(data, keys, separator, excludeCSVHeader) {
   for (let i = firstRow; i <= rowCount; i++) {
     dataString += headCells.map(x => {
       if ((x.row + (x.rowSpan - 1)) === i) {
-        return x.header;
+        return `"${x.header}"`;
       }
       if (x.row === i && x.rowSpan > 1) {
         return '';
@@ -45,9 +46,10 @@ function toString(data, keys, separator, excludeCSVHeader) {
 
   data.map(function(row) {
     keys.map(function(col, i) {
-      const { field, format, extraData } = col;
-      const value = typeof format !== 'undefined' ? format(row[field], row, extraData) : row[field];
-      const cell = typeof value !== 'undefined' ? ('"' + value + '"') : '';
+      const { field, format, extraData, type } = col;
+      let value = typeof format !== 'undefined' ? format(row[field], row, extraData) : row[field];
+      value = type === Const.CSV_NUMBER_TYPE ? Number(value) : `"${value}"`;
+      const cell = typeof value !== 'undefined' ? value : '';
       dataString += cell;
       if (i + 1 < keys.length) dataString += separator;
     });
@@ -62,7 +64,7 @@ const exportCSV = function(data, keys, filename, separator, noAutoBOM, excludeCS
   const dataString = toString(data, keys, separator, excludeCSVHeader);
   if (typeof window !== 'undefined') {
     noAutoBOM = noAutoBOM === undefined ? true : noAutoBOM;
-    saveAs(new Blob([ dataString ],
+    saveAs(new Blob([ '\ufeff', dataString ],
         { type: 'text/plain;charset=utf-8' }),
         filename, noAutoBOM);
   }

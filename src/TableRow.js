@@ -1,7 +1,8 @@
 /* eslint no-nested-ternary: 0 */
 import classSet from 'classnames';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Utils from './util';
-import React, { Component, PropTypes } from 'react';
 
 class TableRow extends Component {
 
@@ -14,7 +15,9 @@ class TableRow extends Component {
     const rowIndex = this.props.index + 1;
     const cellIndex = e.target.cellIndex;
     if (this.props.onRowClick) this.props.onRowClick(rowIndex, cellIndex);
-    const { selectRow, unselectableRow, isSelected, onSelectRow, onExpandRow } = this.props;
+    const {
+      selectRow, unselectableRow, isSelected, onSelectRow, onExpandRow, dbClickToEdit
+    } = this.props;
     if (selectRow) {
       if (selectRow.clickToSelect && !unselectableRow) {
         onSelectRow(rowIndex, !isSelected, e);
@@ -32,7 +35,9 @@ class TableRow extends Component {
           this.clickNum = 0;
         }, 200);
       } else {
-        this.expandRow(rowIndex, cellIndex);
+        if (dbClickToEdit) {
+          this.expandRow(rowIndex, cellIndex);
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classSet from 'classnames';
 import Const from '../Const';
 
@@ -22,9 +23,9 @@ class SelectFilter extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const isPlaceholderSelected = (nextProps.defaultValue === undefined ||
-      !nextProps.options.hasOwnProperty(nextProps.defaultValue));
+  componentWillReceiveProps() {
+    const currentSelectValue = this.refs.selectInput.value;
+    const isPlaceholderSelected = !currentSelectValue || currentSelectValue === '';
     this.setState(() => {
       return {
         isPlaceholderSelected

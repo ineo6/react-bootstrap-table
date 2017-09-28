@@ -1,3 +1,74 @@
+<a name="v4.0.5"></a>
+# [v4.0.5](https://github.com/AllenFang/react-bootstrap-table/compare/v4.0.4...v4.0.5) (2017-09-20)
+## Bug fixes
+* Fix [#787](https://github.com/AllenFang/react-bootstrap-table/issues/787)([84cc76c](https://github.com/AllenFang/react-bootstrap-table/commit/84cc76c7d92b4aa2eb3f1a3c8fddabd5b20f9647))
+
+## Enhancement
+* Support `ArrayFilter` but it's an internal filter, you **can not** configure on `filter.type` with `ArrayFilter`([5b32bfd](https://github.com/AllenFang/react-bootstrap-table/commit/5b32bfd92611e31ec5928d73f953fc8cedbab210))
+	* Please check [this](https://github.com/AllenFang/react-bootstrap-table/blob/master/examples/js/column-filter/array-filter-programmatically.js) example.
+
+## Features
+* Support `csvFieldType` to assign the type of cell when exporting csv([d810c9c](https://github.com/AllenFang/react-bootstrap-table/commit/d810c9c51ab036c43eaa76a46617c493f4f430c6))
+	* [example](https://github.com/AllenFang/react-bootstrap-table/commit/27b1e75e95d2983d9d3d2a7cab7456904acb8aad)
+	* Available is `number` and `string`, default is `string`
+* Support auto collapse expanded rows when sort/filter/search([5ad7a75](https://github.com/AllenFang/react-bootstrap-table/commit/5ad7a751c5054a5ea803f5010727e65b61987288))
+	* Check [this](https://github.com/AllenFang/react-bootstrap-table/blob/master/examples/js/expandRow/auto-collapse.js) example
+
+<a name="v4.0.4"></a>
+# [v4.0.4](https://github.com/AllenFang/react-bootstrap-table/compare/v4.0.3...v4.0.4) (2017-09-15)
+## Bug fixes
+* Fix `BootstrapTable.reset` method doesn't clean the cell editing state([f3466be](https://github.com/AllenFang/react-bootstrap-table/commit/f3466befcf94f61b9ae01dbfc36fa47535290582))
+* Fix search result is reset when a rerender with only enable `remote.cellEdit`([8ba60d8](https://github.com/AllenFang/react-bootstrap-table/commit/8ba60d8509a215729371fa14ef70b451ea1d4a9f))
+* `columnClassName` get render on `colgroup` even if it is function([031a99d](https://github.com/AllenFang/react-bootstrap-table/commit/031a99d59267b1656774cbe06f79af2c0c533963))
+
+## Enhancement
+* Able to styling the header column when sorting([7960b3f](https://github.com/AllenFang/react-bootstrap-table/commit/7960b3fb5a3c79cf4635577d1333c8efc59b2ef3))
+	* Check [example](https://github.com/AllenFang/react-bootstrap-table/blob/master/examples/js/sort/sort-style-table.js#L36-L37)
+* Trying to fixing encoding issue when opening CSV file with Excel([c05679c](https://github.com/AllenFang/react-bootstrap-table/commit/c05679c25ddfc817f40e8d5ab40b004c335a4103))
+
+<a name="v4.0.3"></a>
+# [v4.0.3](https://github.com/AllenFang/react-bootstrap-table/compare/v4.0.2...v4.0.3) (2017-09-04)
+## Bug fixes
+* placeholder-selected in filters/Select.js is not handled correctly([1bba1aa](https://github.com/AllenFang/react-bootstrap-table/commit/1bba1aaab4d2813f2a60430ec736608eb83bb480))
+
+## Enhancement
+* Setting environment to production([a7ff05c](https://github.com/AllenFang/react-bootstrap-table/commit/a7ff05cf3ae6a98663440fce711e981fafb95c3d))
+* Pass `rowIndex` and `columnIndex` as third and fourth arguments for `columnTitle` callback function([99f56a0](https://github.com/AllenFang/react-bootstrap-table/commit/99f56a0066ed9eb37b1a81bffd7423d6d904da88)) 
+
+<a name="v4.0.2"></a>
+# [v4.0.2](https://github.com/AllenFang/react-bootstrap-table/compare/v4.0.1...v4.0.2) (2017-08-22)
+## Bug fixes
+* Fix the `expandable` broken on custom column when `expandBy` is `column`([1be402e](https://github.com/AllenFang/react-bootstrap-table/commit/1be402e3bba6723357ddd37dc0dd079fe931cd23))
+## Enhancement
+* Able to configure the position of `ToolBar`([29bbecc](https://github.com/AllenFang/react-bootstrap-table/commit/29bbecce03df68ca6bd5f65738a700abc2173e75))
+	* Configure the position via`options.toolbarPosition`, available value is `top`, `bottom` and `both`.
+* Custom the column title([cd93a3f](https://github.com/AllenFang/react-bootstrap-table/commit/cd93a3fc2c2b69c1de4d1eb592c0863091c423a6))
+	* Configure `columnTitle` on `TableHeaderColumn`, which accept a function and take `cell` and `row` as arguments
+	* Check [this](https://github.com/AllenFang/react-bootstrap-table/commit/fced9faa6f6ea60c3d7c34e977bb53f33c1dffc0) example
+* Add quotation marks to header cells on CSV file([55de1d6](https://github.com/AllenFang/react-bootstrap-table/pull/1556/commits/55de1d635db1d2c5e35033b258f546b83ffc153e))
+
+<a name="v4.0.1"></a>
+# [v4.0.1](https://github.com/AllenFang/react-bootstrap-table/compare/v4.0.0...v4.0.1) (2017-08-13)
+## Bug fixes
+* Fix wrong data population when drop rows in a table which enable pagination([87484cc](https://github.com/AllenFang/react-bootstrap-table/commit/87484cc7c3c7808b2de0bc5a12ce322abbb3ffad))
+
+<a name="v4.0.0"></a>
+# [v4.0.0](https://github.com/AllenFang/react-bootstrap-table/compare/v3.5.1...v4.0.0) (2017-08-06)
+## Bug fixes
+* Fix validation called twice when press tab to leave the cell editor([5532b98](https://github.com/AllenFang/react-bootstrap-table/commit/5532b9887fc94e23ae3e8d68a7b683db956a2e25))
+
+## Enhancement
+* Fixed hard coded warning when insert fails([28b3ea3](https://github.com/AllenFang/react-bootstrap-table/commit/28b3ea32ee44a3b94d04cb3512e996a576932ca4))
+	* Use `options.insertFailIndicator` to custom the error indicator.
+* Fixed 'Show All/Show selected only' is display in contrast([db1f8e7](https://github.com/AllenFang/react-bootstrap-table/commit/db1f8e71662633ddf21ac5be984131c20e84fcac))
+* Use `prop-types`
+* Use `editTdAttr` on `TableHeaderColumn` to custom the attributes on the column(`TD`) of cell editor([42e84b7](https://github.com/AllenFang/react-bootstrap-table/commit/42e84b7839e38cb5492a66c92da8beebdba67c6a))
+* Support dynamic options list for dropdown in cell editor([62b928a](https://github.com/AllenFang/react-bootstrap-table/commit/62b928a91cbe6e938147361f750e3ef4991c5006))
+	* `editable.options.values` on `TableHeaderColumn` can accept an array or function now.
+
+## Features
+* Support `bootstrap@4` and `bootstrap@3`, if you use 4, please add `version='4'` on `<BootstrapTable>`.
+
 <a name="v3.5.1"></a>
 # [v3.5.1](https://github.com/AllenFang/react-bootstrap-table/compare/v3.5.0...v3.5.1) (2017-08-02)
 ## Bug fixes
